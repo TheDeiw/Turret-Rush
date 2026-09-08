@@ -1,10 +1,12 @@
 using Zenject;
 using Services.Input;
+using UnityEngine;
 
 namespace Core
 {
     public class GameInstaller : MonoInstaller
     {
+        [SerializeField] private GameManager gameManager;
         public override void InstallBindings()
         {
             BindInputService();
@@ -21,7 +23,7 @@ namespace Core
 
         private void BindGameManager()
         {
-            // Container.Bind<GameManager>().AsSingle();
+            Container.Bind<GameManager>().FromInstance(gameManager).AsSingle();
         }
     }
 }

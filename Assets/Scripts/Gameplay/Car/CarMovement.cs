@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Services.Input;
 using Zenject;
+using Core;
 
 namespace Gameplay.Car
 {
@@ -16,49 +17,71 @@ namespace Gameplay.Car
         [SerializeField] private float waveFrequency;
 
         private bool _isMoving = false;
+        private float _startZPosition;
         private float _startXPosition;
+        private float _currentSpeed;
 
-        private MainInputSystem _gameInput;
+        private GameManager _gameManager;
 
         [Inject]
-        public void Construct(MainInputSystem gameInput)
+        public void Construct(GameManager gameManager)
         {
-            _gameInput = gameInput;
-            _gameInput.Player.Tap.performed += OnTap;
+            _gameManager = gameManager;
         }
 
         private void Start()
         {
-            _startXPosition = transform.position.x;
+            _gameManager.OnGameStarted += HandleGameStarted;
+            _gameManager.OnGameWon += StopMovement;
+            _gameManager.OnGameLost += StopMovement;
         }
 
         private void OnDestroy()
         {
-            if (_gameInput != null)
+            if (_gameManager != null)
             {
-                _gameInput.Player.Tap.performed -= OnTap;
+                _gameManager.OnGameStarted -= HandleGameStarted;
+                _gameManager.OnGameWon -= StopMovement;
+                _gameManager.OnGameLost -= StopMovement;
             }
         }
 
-        private void OnTap(InputAction.CallbackContext context)
+        private void HandleGameStarted()
         {
+            _startZPosition = transform.position.z;
+            _startXPosition = transform.position.x;
             _isMoving = true;
+            _currentSpeed = speed;
         }
+
+        private void StopMovement()
+        {
+            _isMoving = false;
+        }
+
 
         private void Update()
         {
             if (!_isMoving)
             {
-                return;
+                _currentSpeed = Mathf.Lerp(_currentSpeed, 0f, Time.deltaTime * 2f);
+                if (_currentSpeed < 0.01f)
+                    _currentSpeed = 0f;
+            }
+            else
+            {
+                CarWaving();
             }
 
-            transform.Translate(Vector3.forward * (speed * Time.deltaTime));
-            CarWaving();
+            if (_currentSpeed > 0f)
+            {
+                transform.Translate(Vector3.forward * (_currentSpeed * Time.deltaTime));
+            }
         }
 
         private void CarWaving()
         {
-            float distanceTraveled = transform.position.z - _startXPosition;
+            float distanceTraveled = transform.position.z - _startZPosition;
             float wave = Mathf.Sin(distanceTraveled * waveFrequency) * waveAmplitude;
             Vector3 newPosition = new Vector3(
                 _startXPosition + wave,
@@ -70,7 +93,6 @@ namespace Gameplay.Car
             // Car rotation based on wave
             float slope = waveAmplitude * waveFrequency * Mathf.Cos(distanceTraveled * waveFrequency);
             float rotationAngle = Mathf.Atan(slope) * Mathf.Rad2Deg;
-
             carObject.transform.rotation = Quaternion.Euler(0f, rotationAngle, 0f);
         }
 
