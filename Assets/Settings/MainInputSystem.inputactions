@@ -8,12 +8,12 @@
             "actions": [
                 {
                     "name": "Tap",
-                    "type": "PassThrough",
+                    "type": "Value",
                     "id": "00ed7a31-ec77-4d86-81d6-2bf93a30c506",
                     "expectedControlType": "Touch",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "PointerPosition",
@@ -39,8 +39,30 @@
                 },
                 {
                     "name": "",
+                    "id": "917c025a-be79-405b-b01a-afa00c179679",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "ae47d580-7fb8-4921-9c76-dfa7f691e3a0",
                     "path": "<Touchscreen>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PointerPosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2a9c842b-1741-4c46-a538-025f84273fce",
+                    "path": "<Mouse>/position",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
