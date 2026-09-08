@@ -1,13 +1,12 @@
 using UnityEngine;
 
-
 namespace Core
 {
     public class LevelGenerator : MonoBehaviour
     {
         [SerializeField] private GameObject levelPrefab;
         [SerializeField] private int levelLength = 10;
-        [SerializeField] private float segmentLength = 20f;
+        private const float SegmentLength = 75f;
 
         private void Start()
         {
@@ -16,9 +15,9 @@ namespace Core
 
         private void GenerateLevel()
         {
-            for (int i = 0; i < levelLength; i++)
+            for (var i = 0; i < levelLength; i++)
             {
-                Vector3 position = new Vector3(0, 0, i * segmentLength);
+                var position = new Vector3(0, 0, i * SegmentLength);
                 Instantiate(levelPrefab, position, Quaternion.identity);
             }
         }

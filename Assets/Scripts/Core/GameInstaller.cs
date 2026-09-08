@@ -1,4 +1,5 @@
 using Zenject;
+using Services.Input;
 
 namespace Core
 {
@@ -12,7 +13,10 @@ namespace Core
 
         private void BindInputService()
         {
-            // Container.Bind<IInputService>().To<MobileInputService>().AsSingle();
+            MainInputSystem gameInput = new MainInputSystem();
+            gameInput.Enable();
+
+            Container.Bind<MainInputSystem>().FromInstance(gameInput).AsSingle();
         }
 
         private void BindGameManager()
