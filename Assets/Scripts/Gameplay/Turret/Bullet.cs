@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Pool;
+using Gameplay.Combat;
 
 namespace Gameplay.Turret
 {
@@ -11,7 +12,7 @@ namespace Gameplay.Turret
         [Header("Settings")]
         [SerializeField] private float speed = 35f;
         [SerializeField] private float maxLifetime = 2.5f;
-        //[SerializeField] private int damage = 1;
+        [SerializeField] private int damage = 1;
 
         private IObjectPool<Bullet> _pool;
         private float _timer;
@@ -47,6 +48,16 @@ namespace Gameplay.Turret
             {
                 _pool?.Release(this);
             }
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (!other.TryGetComponent<IDamageable>(out var damageable))
+            {
+                return;
+            }
+            damageable.TakeDamage(damage);
+            ReturnToPool();
         }
     }
 }

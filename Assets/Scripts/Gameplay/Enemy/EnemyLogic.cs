@@ -1,16 +1,19 @@
-using System;
+using Gameplay.Combat;
 using UnityEngine;
 
 namespace Gameplay.Enemy
 {
     public class EnemyLogic : MonoBehaviour, IEnemy
     {
+        [Header("Components")]
+        [SerializeField] private Animator animator;
+        [SerializeField] private HealthComponent healthComponent;
+
         [Header("Enemy Settings")]
         [SerializeField] private float speed = 5f;
         [SerializeField] private float rotationSpeed = 100f;
-        [SerializeField] private Animator animator;
+        [SerializeField] private int damage = 1;
 
-        //private static readonly int IsRunningHash = Animator.StringToHash("IsRunning");
         private Transform _target;
         private bool _isActive;
 
@@ -18,8 +21,16 @@ namespace Gameplay.Enemy
 
         private void Awake()
         {
-            if (animator == null)
+            if (!animator)
+            {
                 animator = GetComponentInChildren<Animator>();
+            }
+
+            if (!healthComponent)
+            {
+                healthComponent = GetComponent<HealthComponent>();
+            }
+            healthComponent.OnDeath += HandleDeath;
         }
 
         public void Activate(Transform target)
@@ -48,6 +59,25 @@ namespace Gameplay.Enemy
             var targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
             transform.position += transform.forward * (speed * Time.deltaTime);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Player"))
+            {
+                if (other.TryGetComponent<IDamageable>(out var carHealth))
+                {
+                    carHealth.TakeDamage(damage);
+                }
+
+                HandleDeath();
+            }
+        }
+
+        private void HandleDeath()
+        {
+            // Other death logic add here
+            gameObject.SetActive(false);
         }
     }
 }
