@@ -5,6 +5,10 @@ namespace Gameplay.Turret
 {
     public class Bullet : MonoBehaviour
     {
+        [Header("References")]
+        [SerializeField] private TrailRenderer trailRenderer;
+
+        [Header("Settings")]
         [SerializeField] private float speed = 35f;
         [SerializeField] private float maxLifetime = 2.5f;
         //[SerializeField] private int damage = 1;
@@ -31,11 +35,14 @@ namespace Gameplay.Turret
             {
                 ReturnToPool();
             }
-
         }
 
         private void ReturnToPool()
         {
+            if (trailRenderer)
+            {
+                trailRenderer.Clear();
+            }
             if (gameObject.activeSelf)
             {
                 _pool?.Release(this);

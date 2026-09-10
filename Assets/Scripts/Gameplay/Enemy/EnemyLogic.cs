@@ -14,6 +14,8 @@ namespace Gameplay.Enemy
         private Transform _target;
         private bool _isActive;
 
+        private static readonly int IsRunningHash = Animator.StringToHash("IsRunning");
+
         private void Awake()
         {
             if (animator == null)
@@ -28,18 +30,22 @@ namespace Gameplay.Enemy
             _target = target;
 
             // Animation
+            if (animator)
+            {
+                animator.SetBool(IsRunningHash, true);
+            }
         }
 
         private void Update()
         {
             if (!_isActive || !_target) return;
 
-            Vector3 direction = _target.position - transform.position;
+            var direction = _target.position - transform.position;
             direction.y = 0;
 
             if (direction.sqrMagnitude < 0.001f) return;
 
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            var targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
             transform.position += transform.forward * (speed * Time.deltaTime);
         }
