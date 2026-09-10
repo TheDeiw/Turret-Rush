@@ -1,5 +1,58 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2299457234669469915
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7496047930945158547}
+  - component: {fileID: 5365183976782142507}
+  m_Layer: 0
+  m_Name: TriggerZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7496047930945158547
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2299457234669469915}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 539872593134352114}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &5365183976782142507
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2299457234669469915}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 16.067421
+  m_Center: {x: 0, y: 0.9993057, z: 0.38339663}
 --- !u!1 &4722597950381730809
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,6 +63,7 @@ GameObject:
   m_Component:
   - component: {fileID: 539872593134352114}
   - component: {fileID: 187623700814582974}
+  - component: {fileID: 192947371796406258}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -32,6 +86,7 @@ Transform:
   m_Children:
   - {fileID: 5995843442205910309}
   - {fileID: 5917675237270132874}
+  - {fileID: 7496047930945158547}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &187623700814582974
@@ -48,8 +103,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Car.CarMovement
   carObject: {fileID: 6436803761937367600}
   speed: 10
-  waveAmplitude: 2
-  waveFrequency: 0.5
+  waveAmplitude: 0.5
+  waveFrequency: 0.02
+--- !u!54 &192947371796406258
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4722597950381730809}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &5253643152151472155
 GameObject:
   m_ObjectHideFlags: 0
@@ -328,10 +410,50 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a79be7a17c0387449a201673e29ca4a6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6286767960645900290}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a79be7a17c0387449a201673e29ca4a6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1472560133451607605}
   m_SourcePrefab: {fileID: 100100000, guid: a79be7a17c0387449a201673e29ca4a6, type: 3}
 --- !u!4 &5847137035857919710 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a79be7a17c0387449a201673e29ca4a6, type: 3}
   m_PrefabInstance: {fileID: 6246366629797173557}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6516396996736525412 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a79be7a17c0387449a201673e29ca4a6, type: 3}
+  m_PrefabInstance: {fileID: 6246366629797173557}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6286767960645900290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6516396996736525412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e50094bf513c9924884515a1d60ad944, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Turret.TurretController
+  rotationSpeed: 15
+  maxRotationAngle: 75
+--- !u!114 &1472560133451607605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6516396996736525412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce5e6b19e7b34547bc70ee5327c85c79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Turret.TurretShooter
+  bulletPrefab: {fileID: 0}
+  firePoint: {fileID: 5847137035857919710}
+  fireRate: 0.15

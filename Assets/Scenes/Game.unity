@@ -609,7 +609,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 64f8f0b4323022a4982530377defd02c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.7
+      value: 65
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 64f8f0b4323022a4982530377defd02c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -646,8 +646,55 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 64f8f0b4323022a4982530377defd02c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2100168592}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 64f8f0b4323022a4982530377defd02c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2100168596}
   m_SourcePrefab: {fileID: 100100000, guid: 64f8f0b4323022a4982530377defd02c, type: 3}
+--- !u!1 &2100168591 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 64f8f0b4323022a4982530377defd02c, type: 3}
+  m_PrefabInstance: {fileID: 2100168590}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2100168592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2100168591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02f3527cc1ab70b4e80d8ddbce0d9887, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Enemy.EnemyLogic
+  speed: 5
+  rotationSpeed: 100
+  animator: {fileID: 0}
+--- !u!65 &2100168596
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2100168591}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.7637, y: 1.797448, z: 0.5709177}
+  m_Center: {x: 0.0000008940697, y: 0.90035516, z: -0.01641713}
 --- !u!1001 &5001385549796005942
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -656,14 +703,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 187623700814582974, guid: 97890f97d2aec724baba2b45440049c1, type: 3}
-      propertyPath: waveAmplitude
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 187623700814582974, guid: 97890f97d2aec724baba2b45440049c1, type: 3}
-      propertyPath: waveFrequency
-      value: 0.02
-      objectReference: {fileID: 0}
     - target: {fileID: 539872593134352114, guid: 97890f97d2aec724baba2b45440049c1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -704,6 +743,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1472560133451607605, guid: 97890f97d2aec724baba2b45440049c1, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 2051875254}
     - target: {fileID: 4722597950381730809, guid: 97890f97d2aec724baba2b45440049c1, type: 3}
       propertyPath: m_Name
       value: Player
@@ -712,52 +755,33 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6516396996736525412, guid: 97890f97d2aec724baba2b45440049c1, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 2299457234669469915, guid: 97890f97d2aec724baba2b45440049c1, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5001385549796005944}
-    - targetCorrespondingSourceObject: {fileID: 6516396996736525412, guid: 97890f97d2aec724baba2b45440049c1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5001385549796005948}
+      addedObject: {fileID: 5001385549796005945}
   m_SourcePrefab: {fileID: 100100000, guid: 97890f97d2aec724baba2b45440049c1, type: 3}
---- !u!1 &5001385549796005943 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6516396996736525412, guid: 97890f97d2aec724baba2b45440049c1, type: 3}
-  m_PrefabInstance: {fileID: 5001385549796005942}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5001385549796005944
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5001385549796005943}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e50094bf513c9924884515a1d60ad944, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Turret.TurretController
-  rotationSpeed: 15
-  maxRotationAngle: 75
---- !u!4 &5001385549796005945 stripped
+--- !u!4 &5001385549796005943 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 5847137035857919710, guid: 97890f97d2aec724baba2b45440049c1, type: 3}
+  m_CorrespondingSourceObject: {fileID: 5917675237270132874, guid: 97890f97d2aec724baba2b45440049c1, type: 3}
   m_PrefabInstance: {fileID: 5001385549796005942}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5001385549796005948
+--- !u!1 &5001385549796005944 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2299457234669469915, guid: 97890f97d2aec724baba2b45440049c1, type: 3}
+  m_PrefabInstance: {fileID: 5001385549796005942}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5001385549796005945
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5001385549796005943}
+  m_GameObject: {fileID: 5001385549796005944}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce5e6b19e7b34547bc70ee5327c85c79, type: 3}
+  m_Script: {fileID: 11500000, guid: 613dbd5424304270985b68161f705a2d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Turret.TurretShooter
-  bulletPrefab: {fileID: 2051875254}
-  firePoint: {fileID: 5001385549796005945}
-  fireRate: 0.15
+  m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Turret.EnemyDetector
+  carTransform: {fileID: 5001385549796005943}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
