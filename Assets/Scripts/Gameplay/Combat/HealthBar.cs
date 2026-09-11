@@ -70,7 +70,7 @@ namespace Gameplay.Combat
 
             if (hideOnFullHealth)
             {
-                Debug.Log($"HealthBar: UpdateBar called with current: {current}, max: {max}. Setting active state to {(current < max && current > 0)}");
+                //Debug.Log($"HealthBar: UpdateBar called with current: {current}, max: {max}. Setting active state to {(current < max && current > 0)}");
                 backgroundImage.SetActive(current < max && current > 0);
             }
         }

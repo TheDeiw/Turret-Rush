@@ -47,6 +47,26 @@ namespace Gameplay.Enemy
             }
         }
 
+        public void ResetEnemy(Vector3 spawnPosition, Quaternion spawnRotation)
+        {
+            transform.SetPositionAndRotation(spawnPosition, spawnRotation);
+
+            _isActive = false;
+            _target = null;
+
+            if (animator)
+            {
+                animator.SetBool(IsRunningHash, false);
+            }
+
+            if (healthComponent)
+            {
+                healthComponent.ResetHealth();
+            }
+
+            gameObject.SetActive(true);
+        }
+
         private void Update()
         {
             if (!_isActive || !_target) return;

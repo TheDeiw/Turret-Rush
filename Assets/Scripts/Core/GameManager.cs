@@ -22,11 +22,13 @@ namespace Core
         public GameState CurrentState { get; private set; } = GameState.WaitingToStart;
 
         private MainInputSystem _inputSystem;
+        private LevelLoader _levelLoader;
 
         [Inject]
-        public void Construct(MainInputSystem inputSystem)
+        public void Construct(MainInputSystem inputSystem, LevelLoader levelLoader)
         {
             _inputSystem = inputSystem;
+            _levelLoader = levelLoader;
         }
 
         private void Start()
@@ -74,11 +76,17 @@ namespace Core
             OnGameLost?.Invoke();
         }
 
-        private void RestartGame()
+        private async void RestartGame()
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(
-                UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex
-            );
+            try
+            {
+                await _levelLoader.ReloadLevelAsync();
+                CurrentState = GameState.WaitingToStart;
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
         }
 
     }

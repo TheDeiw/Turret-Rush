@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-using Services.Input;
 using Zenject;
 using Core;
 
@@ -38,12 +36,13 @@ namespace Gameplay.Car
 
         private void OnDestroy()
         {
-            if (_gameManager != null)
+            if (_gameManager == null)
             {
-                _gameManager.OnGameStarted -= HandleGameStarted;
-                _gameManager.OnGameWon -= StopMovement;
-                _gameManager.OnGameLost -= StopMovement;
+                return;
             }
+            _gameManager.OnGameStarted -= HandleGameStarted;
+            _gameManager.OnGameWon -= StopMovement;
+            _gameManager.OnGameLost -= StopMovement;
         }
 
         private void HandleGameStarted()
