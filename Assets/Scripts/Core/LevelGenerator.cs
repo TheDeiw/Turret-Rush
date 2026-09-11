@@ -9,15 +9,15 @@ namespace Core
         [System.Serializable]
         private struct EnemySpawnData
         {
-            public EnemyLogic Enemy;
-            public Vector3 Position;
-            public Quaternion Rotation;
+            public IEnemy Enemy;
+            public Vector3 position;
+            public Quaternion rotation;
 
-            public EnemySpawnData(EnemyLogic enemy, Vector3 position, Quaternion rotation)
+            public EnemySpawnData(IEnemy enemy, Vector3 position, Quaternion rotation)
             {
                 Enemy = enemy;
-                Position = position;
-                Rotation = rotation;
+                this.position = position;
+                this.rotation = rotation;
             }
         }
 
@@ -28,7 +28,7 @@ namespace Core
         private const float SegmentLength = 75f;
 
         [Header("Enemy Settings")]
-        [SerializeField] private EnemyLogic enemyPrefab;
+        [SerializeField] private EnemyBase[] enemyPrefabs;
         [SerializeField] private int enemiesPerSegment = 3;
         [SerializeField] private float roadWidth = 3.5f;
 
@@ -38,24 +38,24 @@ namespace Core
         public void GenerateLevel()
         {
             ClearLevel();
-            ResetEnemies();
 
             for (var i = 0; i < levelLength; i++)
             {
-                var segmentPosition = new Vector3(0, 0, i * SegmentLength);
-                var segment = Instantiate(levelPrefab, segmentPosition, Quaternion.identity);
+                var position = new Vector3(0, 0, i * SegmentLength);
+                var prefab = (i == levelLength - 1 && finishPrefab != null) ? finishPrefab : levelPrefab;
+                var segment = Instantiate(prefab, position, Quaternion.identity);
                 _spawnedSegments.Add(segment);
 
                 if (i > 0 && i < levelLength - 1)
                 {
-                    SpawnEnemiesOnSegment(segmentPosition.z);
+                    SpawnEnemiesOnSegment(position.z);
                 }
             }
         }
 
         private void SpawnEnemiesOnSegment(float segmentPositionZ)
         {
-            float step = SegmentLength / (enemiesPerSegment + 1);
+            var step = SegmentLength / (enemiesPerSegment + 1);
 
             for (var j = 1; j < enemiesPerSegment; j++)
             {
@@ -65,7 +65,8 @@ namespace Core
                 var spawnPos = new Vector3(x, 0, z);
                 var spawnRot = Quaternion.Euler(0, Random.Range(0, 360), 0);
 
-                var enemy = Instantiate(enemyPrefab, spawnPos, spawnRot);
+                var prefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+                var enemy = Instantiate(prefab, spawnPos, spawnRot);
                 _spawnedEnemies.Add(new EnemySpawnData(enemy, spawnPos, spawnRot));
             }
         }
@@ -74,7 +75,7 @@ namespace Core
         {
             foreach (var enemyData in _spawnedEnemies)
             {
-                enemyData.Enemy.ResetEnemy(enemyData.Position, enemyData.Rotation);
+                enemyData.Enemy.ResetEnemy(enemyData.position, enemyData.rotation);
             }
         }
 
@@ -88,7 +89,7 @@ namespace Core
 
             foreach (var enemyData in _spawnedEnemies)
             {
-                Destroy(enemyData.Enemy.gameObject);
+                Destroy(enemyData.Enemy.GameObject);
             }
             _spawnedEnemies.Clear();
         }

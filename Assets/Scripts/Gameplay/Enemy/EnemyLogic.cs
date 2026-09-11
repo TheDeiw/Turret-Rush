@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Gameplay.Enemy
 {
-    public class EnemyLogic : MonoBehaviour, IEnemy
+    public class EnemyLogic : EnemyBase
     {
         [Header("Components")]
         [SerializeField] private Animator animator;
@@ -33,7 +33,7 @@ namespace Gameplay.Enemy
             healthComponent.OnDeath += HandleDeath;
         }
 
-        public void Activate(Transform target)
+        public override void Activate(Transform target)
         {
             if (_isActive) return;
 
@@ -47,7 +47,7 @@ namespace Gameplay.Enemy
             }
         }
 
-        public void ResetEnemy(Vector3 spawnPosition, Quaternion spawnRotation)
+        public override void ResetEnemy(Vector3 spawnPosition, Quaternion spawnRotation)
         {
             transform.SetPositionAndRotation(spawnPosition, spawnRotation);
 

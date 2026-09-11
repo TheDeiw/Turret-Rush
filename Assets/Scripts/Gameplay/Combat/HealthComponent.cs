@@ -9,8 +9,8 @@ namespace Gameplay.Combat
 
         public event Action<int, int> OnHealthChange;
         public event Action OnDeath;
-        public int CurrentHealth { get; private set; }
-        public bool IsAlive => CurrentHealth > 0;
+        private int _currentHealth;
+        public bool IsAlive => _currentHealth > 0;
 
         private void Awake()
         {
@@ -19,20 +19,23 @@ namespace Gameplay.Combat
 
         public void ResetHealth()
         {
-            CurrentHealth = maxHealth;
-            OnHealthChange?.Invoke(CurrentHealth, maxHealth);
+            _currentHealth = maxHealth;
+            OnHealthChange?.Invoke(_currentHealth, maxHealth);
         }
 
         public void TakeDamage(int damage)
         {
-            if (!IsAlive) return;
+            if (!IsAlive)
+            {
+                return;
+            }
 
-            CurrentHealth = Mathf.Max(0, CurrentHealth - damage);
-            OnHealthChange?.Invoke(CurrentHealth, maxHealth);
+            _currentHealth = Mathf.Max(0, _currentHealth - damage);
+            OnHealthChange?.Invoke(_currentHealth, maxHealth);
 
             //Debug.Log($"HealthComponent: Took {damage} damage. Current health: {CurrentHealth}/{maxHealth}");
 
-            if (CurrentHealth <= 0)
+            if (_currentHealth <= 0)
             {
                 OnDeath?.Invoke();
             }

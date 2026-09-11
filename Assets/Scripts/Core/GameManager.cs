@@ -18,31 +18,35 @@ namespace Core
         public event Action OnGameStarted;
         public event Action OnGameWon;
         public event Action OnGameLost;
+        public event Action OnGameRestart;
 
         public GameState CurrentState { get; private set; } = GameState.WaitingToStart;
 
         private MainInputSystem _inputSystem;
         private LevelLoader _levelLoader;
+        private LevelGenerator _levelGenerator;
 
         [Inject]
-        public void Construct(MainInputSystem inputSystem, LevelLoader levelLoader)
+        public void Construct(MainInputSystem inputSystem, LevelLoader levelLoader, LevelGenerator levelGenerator)
         {
             _inputSystem = inputSystem;
             _levelLoader = levelLoader;
+            _levelGenerator = levelGenerator;
         }
 
         private void Start()
         {
+            _levelGenerator.GenerateLevel();
             _inputSystem.Player.Tap.performed += HandleTap;
         }
 
-        // private void OnDestroy()
-        // {
-        //     if (_inputSystem != null)
-        //     {
-        //         _inputSystem.Player.Tap.performed -= HandleTap;
-        //     }
-        // }
+        private void OnDestroy()
+        {
+            if (_inputSystem != null)
+            {
+                _inputSystem.Player.Tap.performed -= HandleTap;
+            }
+        }
 
         private void HandleTap(UnityEngine.InputSystem.InputAction.CallbackContext context)
         {
@@ -56,7 +60,7 @@ namespace Core
             }
         }
 
-        public void StartGame()
+        private void StartGame()
         {
             CurrentState = GameState.Playing;
             OnGameStarted?.Invoke();
@@ -80,7 +84,8 @@ namespace Core
         {
             try
             {
-                await _levelLoader.ReloadLevelAsync();
+                OnGameRestart?.Invoke();
+                await _levelLoader.LoadLevelAsync();
                 CurrentState = GameState.WaitingToStart;
             }
             catch (Exception e)

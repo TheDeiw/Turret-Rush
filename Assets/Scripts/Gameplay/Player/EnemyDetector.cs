@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Gameplay.Turret
+namespace Gameplay.Player
 {
     public class EnemyDetector : MonoBehaviour
     {
