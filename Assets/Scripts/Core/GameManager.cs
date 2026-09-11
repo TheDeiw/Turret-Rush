@@ -84,8 +84,7 @@ namespace Core
         {
             try
             {
-                OnGameRestart?.Invoke();
-                await _levelLoader.LoadLevelAsync();
+                await _levelLoader.LoadLevelAsync(onScreenCovered: () => OnGameRestart?.Invoke());
                 CurrentState = GameState.WaitingToStart;
             }
             catch (Exception e)

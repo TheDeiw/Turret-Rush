@@ -10,6 +10,9 @@ namespace Core
     {
         [SerializeField] private float fadeDuration = 0.5f;
 
+        public event Action OnLevelLoadStart;
+        public event Action OnLevelLoadComplete;
+
         private LevelGenerator _levelGenerator;
         private bool _isLoading;
 
@@ -19,7 +22,7 @@ namespace Core
             _levelGenerator = levelGenerator;
         }
 
-        public async UniTask LoadLevelAsync(CancellationToken cancellationToken = default)
+        public async UniTask LoadLevelAsync(Action onScreenCovered = null, CancellationToken cancellationToken = default)
         {
             if (_isLoading)
             {
@@ -27,11 +30,15 @@ namespace Core
             }
             _isLoading = true;
 
+            OnLevelLoadStart?.Invoke();
             await UniTask.Delay(TimeSpan.FromSeconds(fadeDuration), cancellationToken: cancellationToken);
 
+            onScreenCovered?.Invoke();
             _levelGenerator.GenerateLevel();
 
             await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate, cancellationToken);
+
+            OnLevelLoadComplete?.Invoke();
             await UniTask.Delay(TimeSpan.FromSeconds(fadeDuration), cancellationToken: cancellationToken);
 
             _isLoading = false;
