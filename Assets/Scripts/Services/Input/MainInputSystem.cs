@@ -96,9 +96,9 @@ namespace Services.Input
             ""actions"": [
                 {
                     ""name"": ""Tap"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""00ed7a31-ec77-4d86-81d6-2bf93a30c506"",
-                    ""expectedControlType"": ""Touch"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -117,8 +117,8 @@ namespace Services.Input
                 {
                     ""name"": """",
                     ""id"": ""feb16448-bc1d-41c3-a2de-e5d802663a55"",
-                    ""path"": ""<Touchscreen>/primaryTouch"",
-                    ""interactions"": """",
+                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Tap"",
@@ -127,7 +127,7 @@ namespace Services.Input
                 },
                 {
                     ""name"": """",
-                    ""id"": ""917c025a-be79-405b-b01a-afa00c179679"",
+                    ""id"": ""5a3973f6-74b4-4139-bc51-6f824b22a6fd"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -149,7 +149,7 @@ namespace Services.Input
                 },
                 {
                     ""name"": """",
-                    ""id"": ""2a9c842b-1741-4c46-a538-025f84273fce"",
+                    ""id"": ""69392380-7ae3-43c1-918c-78275a7e0a84"",
                     ""path"": ""<Mouse>/position"",
                     ""interactions"": """",
                     ""processors"": """",

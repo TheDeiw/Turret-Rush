@@ -47,6 +47,11 @@ namespace Gameplay.Player
             {
                 healthComponent.OnDeath += HandleDeath;
             }
+
+            if (carLogic)
+            {
+                carLogic.OnFinishReached += HandleFinish;
+            }
         }
 
         private void OnDestroy()
@@ -62,6 +67,11 @@ namespace Gameplay.Player
             if (healthComponent)
             {
                 healthComponent.OnDeath -= HandleDeath;
+            }
+
+            if (carLogic)
+            {
+                carLogic.OnFinishReached -= HandleFinish;
             }
         }
 
@@ -82,6 +92,12 @@ namespace Gameplay.Player
         {
             StopMoving();
             _gameManager.LoseGame();
+        }
+
+        private void HandleFinish()
+        {
+            StopMoving();
+            _gameManager.WinGame();
         }
 
         private void ResetPlayer()
@@ -112,15 +128,6 @@ namespace Gameplay.Player
             {
                 transform.Translate(Vector3.forward * (_currentSpeed * Time.deltaTime));
                 carLogic.UpdateWave(transform.position.z);
-            }
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.CompareTag("Finish"))
-            {
-                StopMoving();
-                _gameManager.WinGame();
             }
         }
     }

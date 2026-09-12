@@ -119,6 +119,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &196254648
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 196254649}
+  m_Layer: 0
+  m_Name: --- UI ---
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &196254649
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 196254648}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &230103065
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,7 +551,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Core.LevelGenerator
   levelPrefab: {fileID: 7985027036566439071, guid: e7f16d0187812a041ab2a1781f352204, type: 3}
   finishPrefab: {fileID: 4868346594521357728, guid: 1e92d668cdbc6684391aa017f21af465, type: 3}
-  levelLength: 2
+  levelLength: 7
   enemyPrefabs:
   - {fileID: 5790284410717265429, guid: b40a7f97068de83489fd4d6cf5076106, type: 3}
   enemiesPerSegment: 5
@@ -662,7 +693,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1978744752}
   m_Layer: 0
-  m_Name: ----------------------------
+  m_Name: --- Game ---
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -779,6 +810,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FaderCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 2464640898981549590, guid: c7055f9b1ea649746b51fa90f4c0e7c9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9105167074668410253, guid: c7055f9b1ea649746b51fa90f4c0e7c9, type: 3}
       propertyPath: m_SortingOrder
       value: 1
@@ -887,6 +922,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5365183976782142507, guid: 97890f97d2aec724baba2b45440049c1, type: 3}
+      propertyPath: m_Radius
+      value: 27.96738
+      objectReference: {fileID: 0}
+    - target: {fileID: 5365183976782142507, guid: 97890f97d2aec724baba2b45440049c1, type: 3}
+      propertyPath: m_Center.z
+      value: 3.8835526
+      objectReference: {fileID: 0}
     - target: {fileID: 5995843442205910309, guid: 97890f97d2aec724baba2b45440049c1, type: 3}
       propertyPath: m_LocalPosition.z
       value: -10.1
@@ -916,6 +959,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2175153676445553551, guid: f87246f055474e24aa0728771154e25c, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.044921875
+      objectReference: {fileID: 0}
     - target: {fileID: 2348354512557152196, guid: f87246f055474e24aa0728771154e25c, type: 3}
       propertyPath: m_SortingOrder
       value: 0
@@ -1020,8 +1067,9 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 230103068}
+  - {fileID: 1813139614}
+  - {fileID: 196254649}
   - {fileID: 242636819089716974}
   - {fileID: 7996747443446926340}
-  - {fileID: 1813139614}
   - {fileID: 1978744752}
   - {fileID: 5001385549796005942}

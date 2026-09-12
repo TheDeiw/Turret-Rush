@@ -32,8 +32,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.50000006, y: 0.50000006, z: -0.49999997, w: -0.49999994}
   m_LocalPosition: {x: 0.74255353, y: -0.0000000057723213, z: 62.483265}
-  m_LocalScale: {x: 6.219771, y: 6.219771, z: 5.160103}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 12, y: 12, z: 9.955549}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -108,8 +108,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Turret.Bullet
   trailRenderer: {fileID: 649326382311754760}
-  speed: 50
-  maxLifetime: 2.5
+  speed: 80
+  maxLifetime: 0.8
   damage: 1
 --- !u!65 &3237879832447182015
 BoxCollider:
@@ -130,8 +130,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.017320508, y: 0.020000001, z: 0.046655275}
-  m_Center: {x: 0, y: 2.4896388e-10, z: 0.01006937}
+  m_Size: {x: 0.023017302, y: 0.031068167, z: 0.046655275}
+  m_Center: {x: 0.000051997602, y: -0.000692673, z: 0.01006937}
 --- !u!54 &8983923428163564216
 Rigidbody:
   m_ObjectHideFlags: 0

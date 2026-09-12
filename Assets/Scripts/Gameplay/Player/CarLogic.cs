@@ -1,7 +1,5 @@
-using Core;
-using Gameplay.Combat;
+using System;
 using UnityEngine;
-using Zenject;
 
 namespace Gameplay.Player
 {
@@ -10,6 +8,8 @@ namespace Gameplay.Player
         [Header("Wave Settings")]
         [SerializeField] private float waveAmplitude = 0.5f;
         [SerializeField] private float waveFrequency = 0.02f;
+
+        public event Action OnFinishReached;
 
         private float _startX;
         private float _startZ;
@@ -38,14 +38,22 @@ namespace Gameplay.Player
         {
             if (!_isWaving) return;
 
-            float distance = currentZ - _startZ;
-            float wave = Mathf.Sin(distance * waveFrequency) * waveAmplitude;
+            var distance = currentZ - _startZ;
+            var wave = Mathf.Sin(distance * waveFrequency) * waveAmplitude;
 
             transform.localPosition = new Vector3(_startX + wave, 0f, 0f);
 
-            float slope = waveAmplitude * waveFrequency * Mathf.Cos(distance * waveFrequency);
-            float rotationAngle = Mathf.Atan(slope) * Mathf.Rad2Deg;
+            var slope = waveAmplitude * waveFrequency * Mathf.Cos(distance * waveFrequency);
+            var rotationAngle = Mathf.Atan(slope) * Mathf.Rad2Deg;
             transform.localRotation = Quaternion.Euler(0f, rotationAngle, 0f);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Finish"))
+            {
+                OnFinishReached?.Invoke();
+            }
         }
     }
 }
