@@ -22,7 +22,7 @@ namespace Core
             _levelGenerator = levelGenerator;
         }
 
-        public async UniTask LoadLevelAsync(Action onScreenCovered = null, CancellationToken cancellationToken = default)
+        public async UniTask LoadLevelAsync(Action onScreenCovered = null, bool restartLevel = false, CancellationToken cancellationToken = default)
         {
             if (_isLoading)
             {
@@ -34,7 +34,14 @@ namespace Core
             await UniTask.Delay(TimeSpan.FromSeconds(fadeDuration), cancellationToken: cancellationToken);
 
             onScreenCovered?.Invoke();
-            _levelGenerator.GenerateLevel();
+            if (restartLevel)
+            {
+                _levelGenerator.ResetEnemies();
+            }
+            else
+            {
+                _levelGenerator.GenerateLevel();
+            }
 
             await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate, cancellationToken);
 

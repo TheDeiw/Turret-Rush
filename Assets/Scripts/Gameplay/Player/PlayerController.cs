@@ -1,4 +1,5 @@
 using Core;
+using Gameplay.CameraActions;
 using Gameplay.Combat;
 using UnityEngine;
 using Zenject;
@@ -10,6 +11,7 @@ namespace Gameplay.Player
         [Header("References")]
         [SerializeField] private CarLogic carLogic;
         [SerializeField] private HealthComponent healthComponent;
+        [SerializeField] private CameraShake cameraShake;
 
         [Header("Settings")]
         [SerializeField] private float speed = 10f;
@@ -34,6 +36,10 @@ namespace Gameplay.Player
             {
                 carLogic = GetComponentInChildren<CarLogic>();
             }
+            if (!cameraShake)
+            {
+                cameraShake = GetComponentInChildren<CameraShake>();
+            }
         }
 
         private void Start()
@@ -46,12 +52,14 @@ namespace Gameplay.Player
             if (healthComponent)
             {
                 healthComponent.OnDeath += HandleDeath;
+                healthComponent.OnDamaged += () => cameraShake.Shake();
             }
 
             if (carLogic)
             {
                 carLogic.OnFinishReached += HandleFinish;
             }
+
         }
 
         private void OnDestroy()
@@ -67,6 +75,7 @@ namespace Gameplay.Player
             if (healthComponent)
             {
                 healthComponent.OnDeath -= HandleDeath;
+                healthComponent.OnDamaged -= () => cameraShake.Shake();
             }
 
             if (carLogic)

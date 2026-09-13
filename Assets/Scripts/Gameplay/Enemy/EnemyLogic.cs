@@ -14,6 +14,10 @@ namespace Gameplay.Enemy
         [SerializeField] private float rotationSpeed = 100f;
         [SerializeField] private int damage = 1;
 
+        [Header("Hit Settings")]
+        [SerializeField] private ParticleSystem hitParticle;
+        [SerializeField] private GameObject deathParticlePrefab;
+
         private Transform _target;
         private bool _isActive;
 
@@ -31,6 +35,7 @@ namespace Gameplay.Enemy
                 healthComponent = GetComponent<HealthComponent>();
             }
             healthComponent.OnDeath += HandleDeath;
+            healthComponent.OnDamaged += HandleHit;
         }
 
         public override void Activate(Transform target)
@@ -81,6 +86,14 @@ namespace Gameplay.Enemy
             transform.position += transform.forward * (speed * Time.deltaTime);
         }
 
+        private void HandleHit()
+        {
+            if (hitParticle)
+            {
+                hitParticle.Play();
+            }
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player"))
@@ -96,7 +109,11 @@ namespace Gameplay.Enemy
 
         private void HandleDeath()
         {
-            // Other death logic add here
+            if (deathParticlePrefab)
+            {
+                Instantiate(deathParticlePrefab, transform.position, transform.rotation);
+            }
+
             gameObject.SetActive(false);
         }
     }

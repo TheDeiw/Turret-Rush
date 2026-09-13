@@ -9,6 +9,7 @@ namespace Gameplay.Combat
 
         public event Action<int, int> OnHealthChange;
         public event Action OnDeath;
+        public event Action OnDamaged;
         private int _currentHealth;
         public bool IsAlive => _currentHealth > 0;
 
@@ -32,7 +33,7 @@ namespace Gameplay.Combat
 
             _currentHealth = Mathf.Max(0, _currentHealth - damage);
             OnHealthChange?.Invoke(_currentHealth, maxHealth);
-
+            OnDamaged?.Invoke();
             //Debug.Log($"HealthComponent: Took {damage} damage. Current health: {CurrentHealth}/{maxHealth}");
 
             if (_currentHealth <= 0)

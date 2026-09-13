@@ -9,6 +9,13 @@ namespace Gameplay.Player
         [SerializeField] private float waveAmplitude = 0.5f;
         [SerializeField] private float waveFrequency = 0.02f;
 
+        [Header("Wheels Settings")]
+        [SerializeField] private Transform[] wheels;
+        [SerializeField] private float wheelRadius = 0.35f;
+
+        [Header("VFX")]
+        [SerializeField] private ParticleSystem[] dustParticles;
+
         public event Action OnFinishReached;
 
         private float _startX;
@@ -20,6 +27,14 @@ namespace Gameplay.Player
             _startZ = startZ;
             _startX = transform.localPosition.x;
             _isWaving = true;
+
+            if (dustParticles != null)
+            {
+                foreach (var particle in dustParticles)
+                {
+                    particle.Play();
+                }
+            }
         }
 
         public void StopWaving()
@@ -32,6 +47,12 @@ namespace Gameplay.Player
             _isWaving = false;
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
+
+            foreach (var particle in dustParticles)
+            {
+                particle.Clear();
+                particle.Stop();
+            }
         }
 
         public void UpdateWave(float currentZ)
@@ -46,6 +67,23 @@ namespace Gameplay.Player
             var slope = waveAmplitude * waveFrequency * Mathf.Cos(distance * waveFrequency);
             var rotationAngle = Mathf.Atan(slope) * Mathf.Rad2Deg;
             transform.localRotation = Quaternion.Euler(0f, rotationAngle, 0f);
+
+            RotateWheels(distance);
+        }
+
+        private void RotateWheels(float deltaDistance)
+        {
+            if (wheels == null || wheels.Length == 0) return;
+
+            var angle = (deltaDistance / wheelRadius) * Mathf.Rad2Deg;
+
+            foreach (var wheel in wheels)
+            {
+                if (wheel)
+                {
+                    wheel.Rotate(Vector3.right, angle, Space.Self);
+                }
+            }
         }
 
         private void OnTriggerEnter(Collider other)

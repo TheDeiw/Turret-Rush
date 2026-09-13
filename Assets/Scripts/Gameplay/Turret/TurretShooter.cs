@@ -11,6 +11,7 @@ namespace Gameplay.Turret
         [Header("References")]
         [SerializeField] private Bullet bulletPrefab;
         [SerializeField] private Transform firePoint;
+        [SerializeField] private TurretRecoil turretRecoil;
 
         [Header("Shooting Settings")]
         [SerializeField] private float fireRate = 0.15f;
@@ -55,16 +56,6 @@ namespace Gameplay.Turret
             _gameManager.OnGameLost += () => _isShooting = false;
         }
 
-        // private void OnDestroy()
-        // {
-        //     if (_gameManager != null)
-        //     {
-        //         _gameManager.OnGameStarted -= () => _isShooting = true;
-        //         _gameManager.OnGameWon -= () => _isShooting = false;
-        //         _gameManager.OnGameLost -= () => _isShooting = false;
-        //     }
-        // }
-
         private void Update()
         {
             if (!_isShooting) return;
@@ -74,6 +65,11 @@ namespace Gameplay.Turret
             {
                 _fireTimer = 0f;
                 _bulletPool.Get();
+
+                if (turretRecoil)
+                {
+                    turretRecoil.PlayRecoil();
+                }
             }
         }
     }
