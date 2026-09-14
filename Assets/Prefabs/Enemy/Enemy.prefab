@@ -301,7 +301,7 @@ MonoBehaviour:
   animator: {fileID: 5261274263252210844}
   healthComponent: {fileID: 6666305785472265273}
   speed: 7
-  rotationSpeed: 250
+  rotationSpeed: 500
   damage: 1
   hitParticle: {fileID: 123461514002054302}
   deathParticlePrefab: {fileID: 4360011548651012074, guid: d89264abe21077e4a83a5afe5a5ec77e, type: 3}
