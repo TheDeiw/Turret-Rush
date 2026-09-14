@@ -235,9 +235,9 @@ GameObject:
   - component: {fileID: 4173105170193503750}
   - component: {fileID: 5261274263252210844}
   - component: {fileID: 5790284410717265429}
+  - component: {fileID: 6666305785472265273}
   - component: {fileID: 6332154198128656557}
   - component: {fileID: 2194653144944093006}
-  - component: {fileID: 6666305785472265273}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -301,12 +301,25 @@ MonoBehaviour:
   animator: {fileID: 5261274263252210844}
   healthComponent: {fileID: 6666305785472265273}
   speed: 7
-  rotationSpeed: 100
+  rotationSpeed: 250
   damage: 1
   hitParticle: {fileID: 123461514002054302}
   deathParticlePrefab: {fileID: 4360011548651012074, guid: d89264abe21077e4a83a5afe5a5ec77e, type: 3}
   hitPunchScale: 1.15
   hitPunchDuration: 0.12
+--- !u!114 &6666305785472265273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 617509770309720221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 615a448dbbf241369af20670b525abea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Combat.HealthComponent
+  maxHealth: 2
 --- !u!54 &6332154198128656557
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -357,19 +370,6 @@ CapsuleCollider:
   m_Height: 3.4952044
   m_Direction: 1
   m_Center: {x: 0.046064734, y: 1.0919962, z: 0.09159374}
---- !u!114 &6666305785472265273
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 617509770309720221}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 615a448dbbf241369af20670b525abea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Combat.HealthComponent
-  maxHealth: 3
 --- !u!1 &749304198798797064
 GameObject:
   m_ObjectHideFlags: 0

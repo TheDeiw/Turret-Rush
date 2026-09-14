@@ -15,6 +15,7 @@ namespace Gameplay.Player
 
         [Header("Settings")]
         [SerializeField] private float speed = 10f;
+        [SerializeField] private float speedChangeRate = 5f;
 
         private GameManager _gameManager;
         private bool _isMoving;
@@ -86,7 +87,6 @@ namespace Gameplay.Player
         private void StartMoving()
         {
             _isMoving = true;
-            _currentSpeed = speed;
             carLogic.StartWaving(transform.position.z);
         }
 
@@ -131,15 +131,15 @@ namespace Gameplay.Player
 
         private void Update()
         {
-            if (!_isMoving)
-            {
-                _currentSpeed = Mathf.Lerp(_currentSpeed, 0f, Time.deltaTime * 5f);
-                if (_currentSpeed < 0.01f) _currentSpeed = 0f;
-            }
+            var targetSpeed = _isMoving ? speed : 0f;
+            _currentSpeed = Mathf.Lerp(_currentSpeed, targetSpeed, Time.deltaTime * speedChangeRate);
+            if (_currentSpeed < 0.01f) _currentSpeed = 0f;
 
             if (_currentSpeed > 0f)
             {
-                transform.Translate(Vector3.forward * (_currentSpeed * Time.deltaTime));
+                var deltaDistance = _currentSpeed * Time.deltaTime;
+                transform.Translate(Vector3.forward * deltaDistance);
+                carLogic.UpdateWheels(deltaDistance);
                 carLogic.UpdateWave(transform.position.z);
             }
         }

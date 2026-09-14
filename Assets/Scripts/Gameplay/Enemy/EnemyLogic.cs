@@ -101,7 +101,7 @@ namespace Gameplay.Enemy
             if (direction.sqrMagnitude < 0.001f) return;
 
             var targetRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
             transform.position += transform.forward * (speed * Time.deltaTime);
         }
 

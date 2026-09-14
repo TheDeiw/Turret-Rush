@@ -30,25 +30,30 @@ namespace Core
             }
             _isLoading = true;
 
-            OnLevelLoadStart?.Invoke();
-            await UniTask.Delay(TimeSpan.FromSeconds(fadeDuration), cancellationToken: cancellationToken);
-
-            onScreenCovered?.Invoke();
-            if (restartLevel)
+            try
             {
-                _levelGenerator.ResetEnemies();
+                OnLevelLoadStart?.Invoke();
+                await UniTask.Delay(TimeSpan.FromSeconds(fadeDuration), cancellationToken: cancellationToken);
+
+                onScreenCovered?.Invoke();
+                if (restartLevel)
+                {
+                    _levelGenerator.ResetEnemies();
+                }
+                else
+                {
+                    _levelGenerator.GenerateLevel();
+                }
+
+                await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate, cancellationToken);
+
+                OnLevelLoadComplete?.Invoke();
+                await UniTask.Delay(TimeSpan.FromSeconds(fadeDuration), cancellationToken: cancellationToken);
             }
-            else
+            finally
             {
-                _levelGenerator.GenerateLevel();
+                _isLoading = false;
             }
-
-            await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate, cancellationToken);
-
-            OnLevelLoadComplete?.Invoke();
-            await UniTask.Delay(TimeSpan.FromSeconds(fadeDuration), cancellationToken: cancellationToken);
-
-            _isLoading = false;
         }
     }
 }

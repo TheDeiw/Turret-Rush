@@ -67,8 +67,11 @@ namespace Gameplay.Player
             var slope = waveAmplitude * waveFrequency * Mathf.Cos(distance * waveFrequency);
             var rotationAngle = Mathf.Atan(slope) * Mathf.Rad2Deg;
             transform.localRotation = Quaternion.Euler(0f, rotationAngle, 0f);
+        }
 
-            RotateWheels(distance);
+        public void UpdateWheels(float deltaDistance)
+        {
+            RotateWheels(deltaDistance);
         }
 
         private void RotateWheels(float deltaDistance)
