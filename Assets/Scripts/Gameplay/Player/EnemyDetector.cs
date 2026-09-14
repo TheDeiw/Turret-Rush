@@ -4,6 +4,7 @@ namespace Gameplay.Player
 {
     public class EnemyDetector : MonoBehaviour
     {
+        [Header("References")]
         [SerializeField] private Transform carTransform;
 
         private void Awake()

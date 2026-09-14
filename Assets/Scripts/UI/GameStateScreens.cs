@@ -4,16 +4,17 @@ using Zenject;
 
 namespace UI
 {
-    public class UIManager : MonoBehaviour
+    public class GameStateScreens : MonoBehaviour
     {
-        [SerializeField] private Animator animator;
-
-        private GameManager _gameManager;
-
         private static readonly int HideStartHash = Animator.StringToHash("HideStart");
         private static readonly int ShowWinHash = Animator.StringToHash("ShowWin");
         private static readonly int ShowLoseHash = Animator.StringToHash("ShowLose");
         private static readonly int ResetHash = Animator.StringToHash("Reset");
+
+        [Header("References")]
+        [SerializeField] private Animator animator;
+
+        private GameManager _gameManager;
 
         [Inject]
         public void Construct(GameManager gameManager)

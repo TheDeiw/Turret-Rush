@@ -3,10 +3,11 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace Core
+namespace Core.Level
 {
     public class LevelLoader : MonoBehaviour
     {
+        [Header("Transition Settings")]
         [SerializeField] private float fadeDuration = 0.5f;
 
         public event Action OnTransitionStarted;

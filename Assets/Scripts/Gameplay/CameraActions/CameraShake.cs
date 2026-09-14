@@ -19,6 +19,12 @@ namespace Gameplay.CameraActions
             _initialLocalPosition = transform.localPosition;
         }
 
+        private void OnDestroy()
+        {
+            _shakeCts?.Cancel();
+            _shakeCts?.Dispose();
+        }
+
         public void Shake(float duration = -1f, float strength = -1f)
         {
             if (duration < 0) duration = defaultDuration;
@@ -49,12 +55,6 @@ namespace Gameplay.CameraActions
             }
 
             transform.localPosition = _initialLocalPosition;
-        }
-
-        private void OnDestroy()
-        {
-            _shakeCts?.Cancel();
-            _shakeCts?.Dispose();
         }
     }
 }

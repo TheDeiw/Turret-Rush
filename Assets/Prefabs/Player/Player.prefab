@@ -497,10 +497,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aa15f8a3d2bebd488c8f94ccedc6097, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Player.PlayerController
-  carLogic: {fileID: 3113761513489001554}
+  carVisuals: {fileID: 3113761513489001554}
   healthComponent: {fileID: 2054498890787154709}
   cameraShake: {fileID: 391290127576863678}
   speed: 10
+  speedChangeRate: 5
 --- !u!1 &5064626141570989388
 GameObject:
   m_ObjectHideFlags: 0
@@ -1099,6 +1100,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1120854482312350500, guid: b10dd08029ed7624ea8b17ffb358a528, type: 3}
   firePoint: {fileID: 8879639506172248287}
   turretRecoil: {fileID: 2204300824989913240}
+  turretAiming: {fileID: 6286767960645900290}
   fireRate: 0.25
 --- !u!114 &2204300824989913240
 MonoBehaviour:

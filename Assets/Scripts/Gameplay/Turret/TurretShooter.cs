@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -13,12 +12,12 @@ namespace Gameplay.Turret
         [SerializeField] private Bullet bulletPrefab;
         [SerializeField] private Transform firePoint;
         [SerializeField] private TurretRecoil turretRecoil;
-        [SerializeField] private TurretController turretController;
+        [SerializeField] private TurretAiming turretAiming;
 
         [Header("Shooting Settings")]
         [SerializeField] private float fireRate = 0.15f;
-        private float _fireTimer;
 
+        private float _fireTimer;
         private readonly List<Bullet> _activeBullets = new();
 
         private IObjectPool<Bullet> _bulletPool;
@@ -66,14 +65,6 @@ namespace Gameplay.Turret
             _gameManager.OnGameRestarted += HandleGameRestart;
         }
 
-        private void OnDestroy()
-        {
-            _gameManager.OnGameStarted -= HandleGameStarted;
-            _gameManager.OnGameWon -= HandleGameWon;
-            _gameManager.OnGameLost -= HandleGameLost;
-            _gameManager.OnGameRestarted -= HandleGameRestart;
-        }
-
         private void Update()
         {
             if (!_isShooting) return;
@@ -89,6 +80,14 @@ namespace Gameplay.Turret
                     turretRecoil.PlayRecoil();
                 }
             }
+        }
+
+        private void OnDestroy()
+        {
+            _gameManager.OnGameStarted -= HandleGameStarted;
+            _gameManager.OnGameWon -= HandleGameWon;
+            _gameManager.OnGameLost -= HandleGameLost;
+            _gameManager.OnGameRestarted -= HandleGameRestart;
         }
 
         private void HandleGameStarted()
@@ -120,9 +119,9 @@ namespace Gameplay.Turret
                 turretRecoil.ResetRecoil();
             }
 
-            if (turretController)
+            if (turretAiming)
             {
-                turretController.ResetRotation();
+                turretAiming.ResetRotation();
             }
         }
     }

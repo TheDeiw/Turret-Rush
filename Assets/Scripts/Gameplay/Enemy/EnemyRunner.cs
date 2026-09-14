@@ -5,9 +5,11 @@ using UnityEngine;
 
 namespace Gameplay.Enemy
 {
-    public class EnemyLogic : EnemyBase
+    public class EnemyRunner : EnemyBase
     {
-        [Header("Components")]
+        private static readonly int IsRunningHash = Animator.StringToHash("IsRunning");
+
+        [Header("References")]
         [SerializeField] private Animator animator;
         [SerializeField] private HealthComponent healthComponent;
 
@@ -27,8 +29,6 @@ namespace Gameplay.Enemy
         private Vector3 _baseScale;
         private CancellationTokenSource _hitPunchCts;
 
-        private static readonly int IsRunningHash = Animator.StringToHash("IsRunning");
-
         private void Awake()
         {
             if (!animator)
@@ -42,6 +42,20 @@ namespace Gameplay.Enemy
             _baseScale = transform.localScale;
         }
 
+        private void Update()
+        {
+            if (!_isActive || !_target) return;
+
+            var direction = _target.position - transform.position;
+            direction.y = 0;
+
+            if (direction.sqrMagnitude < 0.001f) return;
+
+            var targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            transform.position += transform.forward * (speed * Time.deltaTime);
+        }
+
         private void OnDestroy()
         {
             healthComponent.OnDied -= HandleDeath;
@@ -49,6 +63,19 @@ namespace Gameplay.Enemy
 
             _hitPunchCts?.Cancel();
             _hitPunchCts?.Dispose();
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Player"))
+            {
+                if (other.TryGetComponent<IDamageable>(out var carHealth))
+                {
+                    carHealth.TakeDamage(damage);
+                }
+
+                HandleDeath();
+            }
         }
 
         public override void Activate(Transform target)
@@ -87,20 +114,6 @@ namespace Gameplay.Enemy
             gameObject.SetActive(true);
         }
 
-        private void Update()
-        {
-            if (!_isActive || !_target) return;
-
-            var direction = _target.position - transform.position;
-            direction.y = 0;
-
-            if (direction.sqrMagnitude < 0.001f) return;
-
-            var targetRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-            transform.position += transform.forward * (speed * Time.deltaTime);
-        }
-
         private void HandleHit()
         {
             if (hitParticle)
@@ -129,19 +142,6 @@ namespace Gameplay.Enemy
             }
 
             transform.localScale = _baseScale;
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.CompareTag("Player"))
-            {
-                if (other.TryGetComponent<IDamageable>(out var carHealth))
-                {
-                    carHealth.TakeDamage(damage);
-                }
-
-                HandleDeath();
-            }
         }
 
         private void HandleDeath()

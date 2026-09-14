@@ -7,6 +7,7 @@ namespace Gameplay.Combat
 
     public class HealthComponent : MonoBehaviour, IDamageable
     {
+        [Header("Health Settings")]
         [SerializeField] private int maxHealth = 3;
 
         public event HealthChangedHandler OnHealthChanged;

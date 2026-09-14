@@ -9,11 +9,11 @@ namespace Gameplay.Player
     public class PlayerController : MonoBehaviour
     {
         [Header("References")]
-        [SerializeField] private CarLogic carLogic;
+        [SerializeField] private CarVisuals carVisuals;
         [SerializeField] private HealthComponent healthComponent;
         [SerializeField] private CameraShake cameraShake;
 
-        [Header("Settings")]
+        [Header("Movement Settings")]
         [SerializeField] private float speed = 10f;
         [SerializeField] private float speedChangeRate = 5f;
 
@@ -29,70 +29,15 @@ namespace Gameplay.Player
 
         private void Start()
         {
-            _gameManager.OnGameStarted += StartMoving;
-            _gameManager.OnGameWon += StopMoving;
-            _gameManager.OnGameLost += StopMoving;
-            _gameManager.OnGameRestarted += ResetPlayer;
+            _gameManager.OnGameStarted += HandleGameStart;
+            _gameManager.OnGameWon += HandleGameEnd;
+            _gameManager.OnGameLost += HandleGameEnd;
+            _gameManager.OnGameRestarted += HandleGameRestart;
 
             healthComponent.OnDied += HandleDeath;
             healthComponent.OnDamaged += HandleHit;
 
-            carLogic.OnFinishReached += HandleFinish;
-        }
-
-        private void OnDestroy()
-        {
-            if (_gameManager)
-            {
-                _gameManager.OnGameStarted -= StartMoving;
-                _gameManager.OnGameWon -= StopMoving;
-                _gameManager.OnGameLost -= StopMoving;
-                _gameManager.OnGameRestarted -= ResetPlayer;
-            }
-
-            healthComponent.OnDied -= HandleDeath;
-            healthComponent.OnDamaged -= HandleHit;
-
-            carLogic.OnFinishReached -= HandleFinish;
-        }
-
-        private void StartMoving()
-        {
-            _isMoving = true;
-            carLogic.StartWaving(transform.position.z);
-        }
-
-        private void StopMoving()
-        {
-            _isMoving = false;
-            carLogic.StopWaving();
-        }
-
-        private void HandleHit()
-        {
-            cameraShake.Shake();
-        }
-
-        private void HandleDeath()
-        {
-            StopMoving();
-            _gameManager.LoseGame();
-        }
-
-        private void HandleFinish()
-        {
-            StopMoving();
-            _gameManager.WinGame();
-        }
-
-        private void ResetPlayer()
-        {
-            StopMoving();
-            _currentSpeed = 0f;
-            transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
-
-            carLogic.ResetPosition();
-            healthComponent.ResetHealth();
+            carVisuals.OnFinishReached += HandleFinish;
         }
 
         private void Update()
@@ -105,9 +50,64 @@ namespace Gameplay.Player
             {
                 var deltaDistance = _currentSpeed * Time.deltaTime;
                 transform.Translate(Vector3.forward * deltaDistance);
-                carLogic.UpdateWheels(deltaDistance);
-                carLogic.UpdateWave(transform.position.z);
+                carVisuals.UpdateWheels(deltaDistance);
+                carVisuals.UpdateWave(transform.position.z);
             }
+        }
+
+        private void OnDestroy()
+        {
+            if (_gameManager)
+            {
+                _gameManager.OnGameStarted -= HandleGameStart;
+                _gameManager.OnGameWon -= HandleGameEnd;
+                _gameManager.OnGameLost -= HandleGameEnd;
+                _gameManager.OnGameRestarted -= HandleGameRestart;
+            }
+
+            healthComponent.OnDied -= HandleDeath;
+            healthComponent.OnDamaged -= HandleHit;
+
+            carVisuals.OnFinishReached -= HandleFinish;
+        }
+
+        private void HandleGameStart()
+        {
+            _isMoving = true;
+            carVisuals.StartWaving(transform.position.z);
+        }
+
+        private void HandleGameEnd()
+        {
+            _isMoving = false;
+            carVisuals.StopWaving();
+        }
+
+        private void HandleHit()
+        {
+            cameraShake.Shake();
+        }
+
+        private void HandleDeath()
+        {
+            HandleGameEnd();
+            _gameManager.LoseGame();
+        }
+
+        private void HandleFinish()
+        {
+            HandleGameEnd();
+            _gameManager.WinGame();
+        }
+
+        private void HandleGameRestart()
+        {
+            HandleGameEnd();
+            _currentSpeed = 0f;
+            transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+
+            carVisuals.ResetPosition();
+            healthComponent.ResetHealth();
         }
     }
 }

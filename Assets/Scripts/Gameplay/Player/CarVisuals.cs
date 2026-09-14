@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Gameplay.Player
 {
-    public class CarLogic : MonoBehaviour
+    public class CarVisuals : MonoBehaviour
     {
         [Header("Wave Settings")]
         [SerializeField] private float waveAmplitude = 0.5f;
@@ -21,6 +21,14 @@ namespace Gameplay.Player
         private float _startX;
         private float _startZ;
         private bool _isWaving;
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Finish"))
+            {
+                OnFinishReached?.Invoke();
+            }
+        }
 
         public void StartWaving(float startZ)
         {
@@ -89,14 +97,6 @@ namespace Gameplay.Player
                 {
                     wheel.Rotate(Vector3.right, angle, Space.Self);
                 }
-            }
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.CompareTag("Finish"))
-            {
-                OnFinishReached?.Invoke();
             }
         }
     }

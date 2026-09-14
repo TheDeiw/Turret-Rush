@@ -1,7 +1,8 @@
+using Gameplay.Combat;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Gameplay.Combat
+namespace Gameplay.Combat.View
 {
     public class HealthBar : MonoBehaviour
     {
@@ -10,7 +11,7 @@ namespace Gameplay.Combat
         [SerializeField] private GameObject backgroundImage;
         [SerializeField] private Image fillImage;
 
-        [Header("Settings")]
+        [Header("Bar Settings")]
         [SerializeField] private bool hideOnFullHealth = true;
 
         private Transform _cameraTransform;
@@ -42,19 +43,19 @@ namespace Gameplay.Combat
             }
         }
 
-        private void OnDisable()
-        {
-            if (healthComponent)
-            {
-                healthComponent.OnHealthChanged -= UpdateBar;
-            }
-        }
-
         private void LateUpdate()
         {
             if (_cameraTransform)
             {
                 transform.forward = _cameraTransform.forward;
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (healthComponent)
+            {
+                healthComponent.OnHealthChanged -= UpdateBar;
             }
         }
 

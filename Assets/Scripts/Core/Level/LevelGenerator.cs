@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Gameplay.Enemy;
 using UnityEngine;
 
-namespace Core
+namespace Core.Level
 {
     public class LevelGenerator : MonoBehaviour
     {
@@ -53,6 +53,14 @@ namespace Core
             }
         }
 
+        public void ResetEnemies()
+        {
+            foreach (var enemyData in _spawnedEnemies)
+            {
+                enemyData.Enemy.ResetEnemy(enemyData.position, enemyData.rotation);
+            }
+        }
+
         private void SpawnEnemiesOnSegment(float segmentPositionZ)
         {
             var step = SegmentLength / (enemiesPerSegment + 1);
@@ -69,14 +77,6 @@ namespace Core
                 var prefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
                 var enemy = Instantiate(prefab, spawnPos, spawnRot);
                 _spawnedEnemies.Add(new EnemySpawnData(enemy, spawnPos, spawnRot));
-            }
-        }
-
-        public void ResetEnemies()
-        {
-            foreach (var enemyData in _spawnedEnemies)
-            {
-                enemyData.Enemy.ResetEnemy(enemyData.position, enemyData.rotation);
             }
         }
 

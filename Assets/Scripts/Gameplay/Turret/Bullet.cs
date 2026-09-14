@@ -9,7 +9,7 @@ namespace Gameplay.Turret
         [Header("References")]
         [SerializeField] private TrailRenderer trailRenderer;
 
-        [Header("Settings")]
+        [Header("Bullet Settings")]
         [SerializeField] private float speed = 35f;
         [SerializeField] private float maxLifetime = 2.5f;
         [SerializeField] private int damage = 1;
@@ -17,11 +17,6 @@ namespace Gameplay.Turret
 
         private IObjectPool<Bullet> _pool;
         private float _timer;
-
-        public void Init(IObjectPool<Bullet> pool)
-        {
-            _pool = pool;
-        }
 
         private void OnEnable()
         {
@@ -57,6 +52,11 @@ namespace Gameplay.Turret
             }
 
             transform.position = previousPosition + direction * distance;
+        }
+
+        public void Init(IObjectPool<Bullet> pool)
+        {
+            _pool = pool;
         }
 
         public void ReturnToPool()

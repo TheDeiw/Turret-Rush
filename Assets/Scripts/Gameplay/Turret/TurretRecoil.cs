@@ -15,21 +15,21 @@ namespace Gameplay.Turret
             _initialLocalPosition = transform.localPosition;
         }
 
-        public void PlayRecoil()
-        {
-            transform.localPosition = _initialLocalPosition - Vector3.forward * recoilDistance;
-        }
-
         private void Update()
         {
             if (transform.localPosition != _initialLocalPosition)
             {
                 transform.localPosition = Vector3.Lerp(
-                    transform.localPosition, 
-                    _initialLocalPosition, 
+                    transform.localPosition,
+                    _initialLocalPosition,
                     Time.deltaTime * returnSpeed
                 );
             }
+        }
+
+        public void PlayRecoil()
+        {
+            transform.localPosition = _initialLocalPosition - Vector3.forward * recoilDistance;
         }
 
         public void ResetRecoil()
