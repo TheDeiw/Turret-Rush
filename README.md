@@ -11,6 +11,10 @@ A small Unity prototype built as a test assignment: the player controls a turret
 5. Reach the finish line with HP remaining → **You Win**. Run out of HP → **You Lose**.
 6. Tap again after a win/lose to restart the level (fade transition, level regenerated, car and enemies reset).
 
+## Demo
+Video:
+https://drive.google.com/file/d/1Tp8SkfU6UbWGf3M10KyuIoFDs1rd75af/view?usp=drivesdk
+
 ## Tech stack
 
 - **Unity 6000.3.15f1**, Universal Render Pipeline (with a dedicated `Mobile` quality tier).
