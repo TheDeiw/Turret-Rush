@@ -38,7 +38,7 @@ namespace Gameplay.Combat
         {
             if (healthComponent)
             {
-                healthComponent.OnHealthChange += UpdateBar;
+                healthComponent.OnHealthChanged += UpdateBar;
             }
         }
 
@@ -46,7 +46,7 @@ namespace Gameplay.Combat
         {
             if (healthComponent)
             {
-                healthComponent.OnHealthChange -= UpdateBar;
+                healthComponent.OnHealthChanged -= UpdateBar;
             }
         }
 

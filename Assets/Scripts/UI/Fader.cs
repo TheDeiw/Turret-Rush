@@ -29,16 +29,16 @@ namespace UI
 
         private void Start()
         {
-            _levelLoader.OnLevelLoadStart += HandleFadeIn;
-            _levelLoader.OnLevelLoadComplete += HandleFadeOut;
+            _levelLoader.OnTransitionStarted += HandleFadeIn;
+            _levelLoader.OnScreenCovered += HandleFadeOut;
         }
 
         private void OnDestroy()
         {
             if (_levelLoader)
             {
-                _levelLoader.OnLevelLoadStart -= HandleFadeIn;
-                _levelLoader.OnLevelLoadComplete -= HandleFadeOut;
+                _levelLoader.OnTransitionStarted -= HandleFadeIn;
+                _levelLoader.OnScreenCovered -= HandleFadeOut;
             }
         }
 

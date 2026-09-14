@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using Services.Input;
 using UnityEngine;
 using Zenject;
@@ -9,8 +10,8 @@ namespace Core
     {
         WaitingToStart,
         Playing,
-        Win,
-        Lose
+        Won,
+        Lost
     }
 
     public class GameManager : MonoBehaviour
@@ -18,7 +19,7 @@ namespace Core
         public event Action OnGameStarted;
         public event Action OnGameWon;
         public event Action OnGameLost;
-        public event Action OnGameRestart;
+        public event Action OnGameRestarted;
 
         private GameState CurrentState { get; set; } = GameState.WaitingToStart;
         private bool _isRestarting = false;
@@ -55,9 +56,9 @@ namespace Core
             {
                 StartGame();
             }
-            else if (!_isRestarting && (CurrentState == GameState.Win || CurrentState == GameState.Lose))
+            else if (!_isRestarting && (CurrentState == GameState.Won || CurrentState == GameState.Lost))
             {
-                RestartGame(restartSameLayout: CurrentState == GameState.Lose);
+                RestartGameAsync(restartSameLayout: CurrentState == GameState.Lost).Forget();
             }
         }
 
@@ -70,18 +71,18 @@ namespace Core
         public void WinGame()
         {
             if (CurrentState != GameState.Playing) return;
-            CurrentState = GameState.Win;
+            CurrentState = GameState.Won;
             OnGameWon?.Invoke();
         }
 
         public void LoseGame()
         {
             if (CurrentState != GameState.Playing) return;
-            CurrentState = GameState.Lose;
+            CurrentState = GameState.Lost;
             OnGameLost?.Invoke();
         }
 
-        private async void RestartGame(bool restartSameLayout)
+        private async UniTaskVoid RestartGameAsync(bool restartSameLayout)
         {
             _isRestarting = true;
             try
@@ -97,8 +98,8 @@ namespace Core
                         _levelGenerator.GenerateLevel();
                     }
 
-                    OnGameRestart?.Invoke();
-                });
+                    OnGameRestarted?.Invoke();
+                }, destroyCancellationToken);
                 CurrentState = GameState.WaitingToStart;
             }
             catch (Exception e)

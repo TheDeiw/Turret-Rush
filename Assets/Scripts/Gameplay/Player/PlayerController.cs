@@ -32,9 +32,9 @@ namespace Gameplay.Player
             _gameManager.OnGameStarted += StartMoving;
             _gameManager.OnGameWon += StopMoving;
             _gameManager.OnGameLost += StopMoving;
-            _gameManager.OnGameRestart += ResetPlayer;
+            _gameManager.OnGameRestarted += ResetPlayer;
 
-            healthComponent.OnDeath += HandleDeath;
+            healthComponent.OnDied += HandleDeath;
             healthComponent.OnDamaged += HandleHit;
 
             carLogic.OnFinishReached += HandleFinish;
@@ -47,10 +47,10 @@ namespace Gameplay.Player
                 _gameManager.OnGameStarted -= StartMoving;
                 _gameManager.OnGameWon -= StopMoving;
                 _gameManager.OnGameLost -= StopMoving;
-                _gameManager.OnGameRestart -= ResetPlayer;
+                _gameManager.OnGameRestarted -= ResetPlayer;
             }
 
-            healthComponent.OnDeath -= HandleDeath;
+            healthComponent.OnDied -= HandleDeath;
             healthComponent.OnDamaged -= HandleHit;
 
             carLogic.OnFinishReached -= HandleFinish;

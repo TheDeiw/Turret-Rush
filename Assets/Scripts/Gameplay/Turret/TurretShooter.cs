@@ -63,7 +63,7 @@ namespace Gameplay.Turret
             _gameManager.OnGameStarted += HandleGameStarted;
             _gameManager.OnGameWon += HandleGameWon;
             _gameManager.OnGameLost += HandleGameLost;
-            _gameManager.OnGameRestart += HandleGameRestart;
+            _gameManager.OnGameRestarted += HandleGameRestart;
         }
 
         private void OnDestroy()
@@ -71,7 +71,7 @@ namespace Gameplay.Turret
             _gameManager.OnGameStarted -= HandleGameStarted;
             _gameManager.OnGameWon -= HandleGameWon;
             _gameManager.OnGameLost -= HandleGameLost;
-            _gameManager.OnGameRestart -= HandleGameRestart;
+            _gameManager.OnGameRestarted -= HandleGameRestart;
         }
 
         private void Update()

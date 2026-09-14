@@ -34,7 +34,7 @@ namespace UI
             _gameManager.OnGameStarted += HandleGameStarted;
             _gameManager.OnGameWon += HandleGameWon;
             _gameManager.OnGameLost += HandleGameLost;
-            _gameManager.OnGameRestart += HandleGameRestart;
+            _gameManager.OnGameRestarted += HandleGameRestart;
         }
 
         private void OnDestroy()
@@ -44,7 +44,7 @@ namespace UI
                 _gameManager.OnGameStarted -= HandleGameStarted;
                 _gameManager.OnGameWon -= HandleGameWon;
                 _gameManager.OnGameLost -= HandleGameLost;
-                _gameManager.OnGameRestart -= HandleGameRestart;
+                _gameManager.OnGameRestarted -= HandleGameRestart;
             }
         }
 

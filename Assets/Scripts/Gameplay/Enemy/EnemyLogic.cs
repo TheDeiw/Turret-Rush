@@ -36,7 +36,7 @@ namespace Gameplay.Enemy
                 animator = GetComponentInChildren<Animator>();
             }
 
-            healthComponent.OnDeath += HandleDeath;
+            healthComponent.OnDied += HandleDeath;
             healthComponent.OnDamaged += HandleHit;
 
             _baseScale = transform.localScale;
@@ -44,7 +44,7 @@ namespace Gameplay.Enemy
 
         private void OnDestroy()
         {
-            healthComponent.OnDeath -= HandleDeath;
+            healthComponent.OnDied -= HandleDeath;
             healthComponent.OnDamaged -= HandleHit;
 
             _hitPunchCts?.Cancel();
