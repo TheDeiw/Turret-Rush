@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7462249930738851349}
   - component: {fileID: 451685115068249283}
   - component: {fileID: 1120854482312350500}
-  - component: {fileID: 3237879832447182015}
   - component: {fileID: 8983923428163564216}
   - component: {fileID: 649326382311754760}
   m_Layer: 0
@@ -111,27 +110,7 @@ MonoBehaviour:
   speed: 80
   maxLifetime: 0.8
   damage: 1
---- !u!65 &3237879832447182015
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6211721520013978369}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.023017302, y: 0.031068167, z: 0.046655275}
-  m_Center: {x: 0.000051997602, y: -0.000692673, z: 0.01006937}
+  hitRadius: 0.15
 --- !u!54 &8983923428163564216
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -22,6 +22,7 @@ namespace Core
 
         private GameState CurrentState { get; set; } = GameState.WaitingToStart;
         private bool _restartLevel = false;
+        private bool _isRestarting = false;
 
         private MainInputSystem _inputSystem;
         private LevelLoader _levelLoader;
@@ -55,7 +56,7 @@ namespace Core
             {
                 StartGame();
             }
-            else if (CurrentState == GameState.Win || CurrentState == GameState.Lose)
+            else if (!_isRestarting && (CurrentState == GameState.Win || CurrentState == GameState.Lose))
             {
                 if (CurrentState == GameState.Lose)
                 {
@@ -87,6 +88,7 @@ namespace Core
 
         private async void RestartGame()
         {
+            _isRestarting = true;
             try
             {
                 await _levelLoader.LoadLevelAsync(onScreenCovered: () => OnGameRestart?.Invoke(), _restartLevel);
@@ -96,6 +98,10 @@ namespace Core
             catch (Exception e)
             {
                 Debug.LogException(e);
+            }
+            finally
+            {
+                _isRestarting = false;
             }
         }
 

@@ -56,10 +56,11 @@ namespace Core
         private void SpawnEnemiesOnSegment(float segmentPositionZ)
         {
             var step = SegmentLength / (enemiesPerSegment + 1);
+            var spawnEnemyPos = segmentPositionZ - (SegmentLength / 2);
 
             for (var j = 1; j < enemiesPerSegment; j++)
             {
-                var z = segmentPositionZ + j * step;
+                var z = spawnEnemyPos + j * step;
                 var x = Random.Range(-roadWidth, roadWidth);
 
                 var spawnPos = new Vector3(x, 0, z);
