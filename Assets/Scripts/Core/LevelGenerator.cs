@@ -42,7 +42,7 @@ namespace Core
             for (var i = 0; i < levelLength; i++)
             {
                 var position = new Vector3(0, 0, i * SegmentLength);
-                var prefab = (i == levelLength - 1 && finishPrefab != null) ? finishPrefab : levelPrefab;
+                var prefab = (i == levelLength - 1 && finishPrefab) ? finishPrefab : levelPrefab;
                 var segment = Instantiate(prefab, position, Quaternion.identity);
                 _spawnedSegments.Add(segment);
 

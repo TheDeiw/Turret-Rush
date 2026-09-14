@@ -35,7 +35,7 @@ namespace UI
 
         private void OnDestroy()
         {
-            if (_levelLoader != null)
+            if (_levelLoader)
             {
                 _levelLoader.OnLevelLoadStart -= HandleFadeIn;
                 _levelLoader.OnLevelLoadComplete -= HandleFadeOut;

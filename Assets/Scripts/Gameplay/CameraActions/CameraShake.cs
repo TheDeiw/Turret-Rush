@@ -12,7 +12,7 @@ namespace Gameplay.CameraActions
         [SerializeField] private float defaultStrength = 0.35f;
 
         private Vector3 _initialLocalPosition;
-        private CancellationTokenSource _cts;
+        private CancellationTokenSource _shakeCts;
 
         private void Awake()
         {
@@ -24,19 +24,20 @@ namespace Gameplay.CameraActions
             if (duration < 0) duration = defaultDuration;
             if (strength < 0) strength = defaultStrength;
 
-            _cts?.Cancel();
-            _cts?.Dispose();
-            _cts = new CancellationTokenSource();
+            _shakeCts?.Cancel();
+            _shakeCts?.Dispose();
+            _shakeCts = new CancellationTokenSource();
 
-            ShakeRoutineAsync(duration, strength, _cts.Token).Forget();
+            ShakeAsync(duration, strength, _shakeCts.Token).Forget();
         }
 
-        private async UniTask ShakeRoutineAsync(float duration, float strength, CancellationToken ct)
+        private async UniTaskVoid ShakeAsync(float duration, float strength, CancellationToken cancellationToken)
         {
             float elapsed = 0f;
 
             while (elapsed < duration)
             {
+                // unscaledDeltaTime: shake should still play even if the game is paused (Time.timeScale == 0).
                 elapsed += Time.unscaledDeltaTime;
 
                 var currentStrength = Mathf.Lerp(strength, 0f, elapsed / duration);
@@ -44,7 +45,7 @@ namespace Gameplay.CameraActions
                 Vector2 randomCircle = Random.insideUnitCircle * currentStrength;
                 transform.localPosition = _initialLocalPosition + new Vector3(randomCircle.x, randomCircle.y, 0f);
 
-                await UniTask.Yield(PlayerLoopTiming.Update, ct);
+                await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken);
             }
 
             transform.localPosition = _initialLocalPosition;
@@ -52,8 +53,8 @@ namespace Gameplay.CameraActions
 
         private void OnDestroy()
         {
-            _cts?.Cancel();
-            _cts?.Dispose();
+            _shakeCts?.Cancel();
+            _shakeCts?.Dispose();
         }
     }
 }

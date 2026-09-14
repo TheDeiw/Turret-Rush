@@ -36,10 +36,6 @@ namespace Gameplay.Enemy
                 animator = GetComponentInChildren<Animator>();
             }
 
-            if (!healthComponent)
-            {
-                healthComponent = GetComponent<HealthComponent>();
-            }
             healthComponent.OnDeath += HandleDeath;
             healthComponent.OnDamaged += HandleHit;
 
@@ -48,6 +44,9 @@ namespace Gameplay.Enemy
 
         private void OnDestroy()
         {
+            healthComponent.OnDeath -= HandleDeath;
+            healthComponent.OnDamaged -= HandleHit;
+
             _hitPunchCts?.Cancel();
             _hitPunchCts?.Dispose();
         }
@@ -83,10 +82,7 @@ namespace Gameplay.Enemy
                 animator.SetBool(IsRunningHash, false);
             }
 
-            if (healthComponent)
-            {
-                healthComponent.ResetHealth();
-            }
+            healthComponent.ResetHealth();
 
             gameObject.SetActive(true);
         }

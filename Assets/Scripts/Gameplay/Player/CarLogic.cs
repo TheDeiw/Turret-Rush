@@ -48,10 +48,13 @@ namespace Gameplay.Player
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
 
-            foreach (var particle in dustParticles)
+            if (dustParticles != null)
             {
-                particle.Clear();
-                particle.Stop();
+                foreach (var particle in dustParticles)
+                {
+                    particle.Clear();
+                    particle.Stop();
+                }
             }
         }
 

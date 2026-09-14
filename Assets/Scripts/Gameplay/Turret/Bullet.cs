@@ -59,7 +59,7 @@ namespace Gameplay.Turret
             transform.position = previousPosition + direction * distance;
         }
 
-        private void ReturnToPool()
+        public void ReturnToPool()
         {
             if (trailRenderer)
             {

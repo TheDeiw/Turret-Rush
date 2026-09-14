@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 using Zenject;
@@ -12,10 +13,13 @@ namespace Gameplay.Turret
         [SerializeField] private Bullet bulletPrefab;
         [SerializeField] private Transform firePoint;
         [SerializeField] private TurretRecoil turretRecoil;
+        [SerializeField] private TurretController turretController;
 
         [Header("Shooting Settings")]
         [SerializeField] private float fireRate = 0.15f;
         private float _fireTimer;
+
+        private readonly List<Bullet> _activeBullets = new();
 
         private IObjectPool<Bullet> _bulletPool;
         private bool _isShooting;
@@ -40,8 +44,13 @@ namespace Gameplay.Turret
                 {
                     b.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);
                     b.gameObject.SetActive(true);
+                    _activeBullets.Add(b);
                 },
-                actionOnRelease: b => b.gameObject.SetActive(false),
+                actionOnRelease: b =>
+                {
+                    b.gameObject.SetActive(false);
+                    _activeBullets.Remove(b);
+                },
                 actionOnDestroy: b => Destroy(b.gameObject),
                 collectionCheck: false,
                 defaultCapacity: 30,
@@ -54,6 +63,7 @@ namespace Gameplay.Turret
             _gameManager.OnGameStarted += HandleGameStarted;
             _gameManager.OnGameWon += HandleGameWon;
             _gameManager.OnGameLost += HandleGameLost;
+            _gameManager.OnGameRestart += HandleGameRestart;
         }
 
         private void OnDestroy()
@@ -61,6 +71,7 @@ namespace Gameplay.Turret
             _gameManager.OnGameStarted -= HandleGameStarted;
             _gameManager.OnGameWon -= HandleGameWon;
             _gameManager.OnGameLost -= HandleGameLost;
+            _gameManager.OnGameRestart -= HandleGameRestart;
         }
 
         private void Update()
@@ -93,6 +104,26 @@ namespace Gameplay.Turret
         private void HandleGameLost()
         {
             _isShooting = false;
+        }
+
+        private void HandleGameRestart()
+        {
+            _fireTimer = 0f;
+
+            foreach (var bullet in _activeBullets.ToArray())
+            {
+                bullet.ReturnToPool();
+            }
+
+            if (turretRecoil)
+            {
+                turretRecoil.ResetRecoil();
+            }
+
+            if (turretController)
+            {
+                turretController.ResetRotation();
+            }
         }
     }
 }

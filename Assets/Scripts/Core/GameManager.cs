@@ -21,7 +21,6 @@ namespace Core
         public event Action OnGameRestart;
 
         private GameState CurrentState { get; set; } = GameState.WaitingToStart;
-        private bool _restartLevel = false;
         private bool _isRestarting = false;
 
         private MainInputSystem _inputSystem;
@@ -58,11 +57,7 @@ namespace Core
             }
             else if (!_isRestarting && (CurrentState == GameState.Win || CurrentState == GameState.Lose))
             {
-                if (CurrentState == GameState.Lose)
-                {
-                    _restartLevel = true;
-                }
-                RestartGame();
+                RestartGame(restartSameLayout: CurrentState == GameState.Lose);
             }
         }
 
@@ -86,14 +81,25 @@ namespace Core
             OnGameLost?.Invoke();
         }
 
-        private async void RestartGame()
+        private async void RestartGame(bool restartSameLayout)
         {
             _isRestarting = true;
             try
             {
-                await _levelLoader.LoadLevelAsync(onScreenCovered: () => OnGameRestart?.Invoke(), _restartLevel);
+                await _levelLoader.PlayTransitionAsync(onScreenCovered: () =>
+                {
+                    if (restartSameLayout)
+                    {
+                        _levelGenerator.ResetEnemies();
+                    }
+                    else
+                    {
+                        _levelGenerator.GenerateLevel();
+                    }
+
+                    OnGameRestart?.Invoke();
+                });
                 CurrentState = GameState.WaitingToStart;
-                _restartLevel = false;
             }
             catch (Exception e)
             {

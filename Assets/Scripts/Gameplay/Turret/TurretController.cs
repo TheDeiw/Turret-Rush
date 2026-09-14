@@ -26,12 +26,6 @@ namespace Gameplay.Turret
 
         private void RotateTurret()
         {
-            if (_inputSystem == null)
-            {
-                Debug.LogWarning("Input system is not initialized.");
-                return;
-            }
-            
             // Get touch coordinates
             Vector2 touchPosition = _inputSystem.Player.PointerPosition.ReadValue<Vector2>();
             
@@ -47,6 +41,12 @@ namespace Gameplay.Turret
             _currentAngle = Mathf.Lerp(_currentAngle, targetAngle, Time.deltaTime * rotationSpeed);
             
             gameObject.transform.localRotation = Quaternion.Euler(0f, _currentAngle, 0f);
+        }
+
+        public void ResetRotation()
+        {
+            _currentAngle = 0f;
+            transform.localRotation = Quaternion.identity;
         }
     }
 }

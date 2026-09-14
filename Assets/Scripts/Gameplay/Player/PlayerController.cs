@@ -27,22 +27,6 @@ namespace Gameplay.Player
             _gameManager = gameManager;
         }
 
-        private void Awake()
-        {
-            if (!healthComponent)
-            {
-                healthComponent = GetComponentInChildren<HealthComponent>();
-            }
-            if (!carLogic)
-            {
-                carLogic = GetComponentInChildren<CarLogic>();
-            }
-            if (!cameraShake)
-            {
-                cameraShake = GetComponentInChildren<CameraShake>();
-            }
-        }
-
         private void Start()
         {
             _gameManager.OnGameStarted += StartMoving;
@@ -50,16 +34,10 @@ namespace Gameplay.Player
             _gameManager.OnGameLost += StopMoving;
             _gameManager.OnGameRestart += ResetPlayer;
 
-            if (healthComponent)
-            {
-                healthComponent.OnDeath += HandleDeath;
-                healthComponent.OnDamaged += HandleHit;
-            }
+            healthComponent.OnDeath += HandleDeath;
+            healthComponent.OnDamaged += HandleHit;
 
-            if (carLogic)
-            {
-                carLogic.OnFinishReached += HandleFinish;
-            }
+            carLogic.OnFinishReached += HandleFinish;
         }
 
         private void OnDestroy()
@@ -72,16 +50,10 @@ namespace Gameplay.Player
                 _gameManager.OnGameRestart -= ResetPlayer;
             }
 
-            if (healthComponent)
-            {
-                healthComponent.OnDeath -= HandleDeath;
-                healthComponent.OnDamaged -= HandleHit;
-            }
+            healthComponent.OnDeath -= HandleDeath;
+            healthComponent.OnDamaged -= HandleHit;
 
-            if (carLogic)
-            {
-                carLogic.OnFinishReached -= HandleFinish;
-            }
+            carLogic.OnFinishReached -= HandleFinish;
         }
 
         private void StartMoving()
@@ -119,14 +91,8 @@ namespace Gameplay.Player
             _currentSpeed = 0f;
             transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
 
-            if (carLogic)
-            {
-                carLogic.ResetPosition();
-            }
-            if (healthComponent)
-            {
-                healthComponent.ResetHealth();
-            }
+            carLogic.ResetPosition();
+            healthComponent.ResetHealth();
         }
 
         private void Update()
