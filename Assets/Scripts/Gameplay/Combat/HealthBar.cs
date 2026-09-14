@@ -68,7 +68,7 @@ namespace Gameplay.Combat
             var fill = (float) current / max;
             fillImage.fillAmount = fill;
 
-            if (hideOnFullHealth)
+            if (hideOnFullHealth && backgroundImage)
             {
                 //Debug.Log($"HealthBar: UpdateBar called with current: {current}, max: {max}. Setting active state to {(current < max && current > 0)}");
                 backgroundImage.SetActive(current < max && current > 0);

@@ -1,3 +1,5 @@
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using Gameplay.Combat;
 using UnityEngine;
 
@@ -17,9 +19,13 @@ namespace Gameplay.Enemy
         [Header("Hit Settings")]
         [SerializeField] private ParticleSystem hitParticle;
         [SerializeField] private GameObject deathParticlePrefab;
+        [SerializeField] private float hitPunchScale = 1.15f;
+        [SerializeField] private float hitPunchDuration = 0.12f;
 
         private Transform _target;
         private bool _isActive;
+        private Vector3 _baseScale;
+        private CancellationTokenSource _hitPunchCts;
 
         private static readonly int IsRunningHash = Animator.StringToHash("IsRunning");
 
@@ -36,6 +42,14 @@ namespace Gameplay.Enemy
             }
             healthComponent.OnDeath += HandleDeath;
             healthComponent.OnDamaged += HandleHit;
+
+            _baseScale = transform.localScale;
+        }
+
+        private void OnDestroy()
+        {
+            _hitPunchCts?.Cancel();
+            _hitPunchCts?.Dispose();
         }
 
         public override void Activate(Transform target)
@@ -55,6 +69,11 @@ namespace Gameplay.Enemy
         public override void ResetEnemy(Vector3 spawnPosition, Quaternion spawnRotation)
         {
             transform.SetPositionAndRotation(spawnPosition, spawnRotation);
+
+            _hitPunchCts?.Cancel();
+            _hitPunchCts?.Dispose();
+            _hitPunchCts = null;
+            transform.localScale = _baseScale;
 
             _isActive = false;
             _target = null;
@@ -92,6 +111,28 @@ namespace Gameplay.Enemy
             {
                 hitParticle.Play();
             }
+
+            if (gameObject.activeInHierarchy)
+            {
+                _hitPunchCts?.Cancel();
+                _hitPunchCts?.Dispose();
+                _hitPunchCts = new CancellationTokenSource();
+                HitPunchAsync(_hitPunchCts.Token).Forget();
+            }
+        }
+
+        private async UniTaskVoid HitPunchAsync(CancellationToken cancellationToken)
+        {
+            var elapsed = 0f;
+            while (elapsed < hitPunchDuration)
+            {
+                elapsed += Time.deltaTime;
+                var t = elapsed / hitPunchDuration;
+                transform.localScale = _baseScale * Mathf.Lerp(hitPunchScale, 1f, t);
+                await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken);
+            }
+
+            transform.localScale = _baseScale;
         }
 
         private void OnTriggerEnter(Collider other)

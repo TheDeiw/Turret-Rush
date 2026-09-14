@@ -51,9 +51,16 @@ namespace Gameplay.Turret
 
         private void Start()
         {
-            _gameManager.OnGameStarted += () => _isShooting = true;
-            _gameManager.OnGameWon += () => _isShooting = false;
-            _gameManager.OnGameLost += () => _isShooting = false;
+            _gameManager.OnGameStarted += HandleGameStarted;
+            _gameManager.OnGameWon += HandleGameWon;
+            _gameManager.OnGameLost += HandleGameLost;
+        }
+
+        private void OnDestroy()
+        {
+            _gameManager.OnGameStarted -= HandleGameStarted;
+            _gameManager.OnGameWon -= HandleGameWon;
+            _gameManager.OnGameLost -= HandleGameLost;
         }
 
         private void Update()
@@ -71,6 +78,21 @@ namespace Gameplay.Turret
                     turretRecoil.PlayRecoil();
                 }
             }
+        }
+
+        private void HandleGameStarted()
+        {
+            _isShooting = true;
+        }
+
+        private void HandleGameWon()
+        {
+            _isShooting = false;
+        }
+
+        private void HandleGameLost()
+        {
+            _isShooting = false;
         }
     }
 }

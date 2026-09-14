@@ -52,14 +52,13 @@ namespace Gameplay.Player
             if (healthComponent)
             {
                 healthComponent.OnDeath += HandleDeath;
-                healthComponent.OnDamaged += () => cameraShake.Shake();
+                healthComponent.OnDamaged += HandleHit;
             }
 
             if (carLogic)
             {
                 carLogic.OnFinishReached += HandleFinish;
             }
-
         }
 
         private void OnDestroy()
@@ -75,7 +74,7 @@ namespace Gameplay.Player
             if (healthComponent)
             {
                 healthComponent.OnDeath -= HandleDeath;
-                healthComponent.OnDamaged -= () => cameraShake.Shake();
+                healthComponent.OnDamaged -= HandleHit;
             }
 
             if (carLogic)
@@ -95,6 +94,11 @@ namespace Gameplay.Player
         {
             _isMoving = false;
             carLogic.StopWaving();
+        }
+
+        private void HandleHit()
+        {
+            cameraShake.Shake();
         }
 
         private void HandleDeath()

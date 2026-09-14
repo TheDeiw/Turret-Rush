@@ -305,6 +305,8 @@ MonoBehaviour:
   damage: 1
   hitParticle: {fileID: 123461514002054302}
   deathParticlePrefab: {fileID: 4360011548651012074, guid: d89264abe21077e4a83a5afe5a5ec77e, type: 3}
+  hitPunchScale: 1.15
+  hitPunchDuration: 0.12
 --- !u!54 &6332154198128656557
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -367,7 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 615a448dbbf241369af20670b525abea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Combat.HealthComponent
-  maxHealth: 2
+  maxHealth: 3
 --- !u!1 &749304198798797064
 GameObject:
   m_ObjectHideFlags: 0
