@@ -1,5 +1,4 @@
-using System.Threading;
-using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Gameplay.Combat;
 using UnityEngine;
 
@@ -27,7 +26,6 @@ namespace Gameplay.Enemy
         private Transform _target;
         private bool _isActive;
         private Vector3 _baseScale;
-        private CancellationTokenSource _hitPunchCts;
 
         private void Awake()
         {
@@ -61,8 +59,7 @@ namespace Gameplay.Enemy
             healthComponent.OnDied -= HandleDeath;
             healthComponent.OnDamaged -= HandleHit;
 
-            _hitPunchCts?.Cancel();
-            _hitPunchCts?.Dispose();
+            transform.DOKill();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -96,10 +93,7 @@ namespace Gameplay.Enemy
         {
             transform.SetPositionAndRotation(spawnPosition, spawnRotation);
 
-            _hitPunchCts?.Cancel();
-            _hitPunchCts?.Dispose();
-            _hitPunchCts = null;
-            transform.localScale = _baseScale;
+            StopHitPunch();
 
             _isActive = false;
             _target = null;
@@ -123,29 +117,24 @@ namespace Gameplay.Enemy
 
             if (gameObject.activeInHierarchy)
             {
-                _hitPunchCts?.Cancel();
-                _hitPunchCts?.Dispose();
-                _hitPunchCts = new CancellationTokenSource();
-                HitPunchAsync(_hitPunchCts.Token).Forget();
+                // Punch is relative to the current scale, so always start it from the base one.
+                StopHitPunch();
+                transform.DOPunchScale(_baseScale * (hitPunchScale - 1f), hitPunchDuration)
+                    .SetLink(gameObject);
             }
         }
 
-        private async UniTaskVoid HitPunchAsync(CancellationToken cancellationToken)
+        private void StopHitPunch()
         {
-            var elapsed = 0f;
-            while (elapsed < hitPunchDuration)
-            {
-                elapsed += Time.deltaTime;
-                var t = elapsed / hitPunchDuration;
-                transform.localScale = _baseScale * Mathf.Lerp(hitPunchScale, 1f, t);
-                await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken);
-            }
-
+            transform.DOKill();
             transform.localScale = _baseScale;
         }
 
         private void HandleDeath()
         {
+            // Pooled enemies are only deactivated, so the tween has to be killed manually.
+            StopHitPunch();
+
             if (deathParticlePrefab)
             {
                 Instantiate(deathParticlePrefab, transform.position, transform.rotation);

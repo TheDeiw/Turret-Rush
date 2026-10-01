@@ -1,4 +1,5 @@
 using Core.Level;
+using DG.Tweening;
 using Zenject;
 using Services.Input;
 using UnityEngine;
@@ -14,9 +15,16 @@ namespace Core
 
         public override void InstallBindings()
         {
+            InitTweens();
             BindInputService();
             BindGameManager();
             BindLevelSystem();
+        }
+
+        private void InitTweens()
+        {
+            DOTween.Init(recycleAllByDefault: true, useSafeMode: true);
+            DOTween.SetTweensCapacity(200, 50);
         }
 
         private void BindInputService()
