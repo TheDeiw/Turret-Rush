@@ -7,13 +7,15 @@ namespace UI
 {
     public class GameStateScreens : MonoBehaviour
     {
-        private static readonly int HideStartHash = Animator.StringToHash("HideStart");
-        private static readonly int ShowWinHash = Animator.StringToHash("ShowWin");
-        private static readonly int ShowLoseHash = Animator.StringToHash("ShowLose");
-        private static readonly int ResetHash = Animator.StringToHash("Reset");
-
         [Header("References")]
-        [SerializeField] private Animator animator;
+        [SerializeField] private CanvasGroup startScreen;
+        [SerializeField] private CanvasGroup winScreen;
+        [SerializeField] private CanvasGroup loseScreen;
+
+        [Header("Animation Settings")]
+        [SerializeField] private float showDuration = 0.35f;
+        [SerializeField] private float hideDuration = 0.2f;
+        [SerializeField] private float showStartScale = 0.8f;
 
         private GameManager _gameManager;
 
@@ -25,10 +27,7 @@ namespace UI
 
         private void Awake()
         {
-            if (!animator)
-            {
-                animator = GetComponent<Animator>();
-            }
+            ResetScreens();
         }
 
         private void Start()
@@ -48,11 +47,51 @@ namespace UI
                 _gameManager.OnGameLost -= HandleGameLost;
                 _gameManager.OnGameRestarted -= HandleGameRestart;
             }
+
+            DOTween.Kill(this);
         }
 
-        private void HandleGameStarted() => animator.SetTrigger(HideStartHash);
-        private void HandleGameWon() => animator.SetTrigger(ShowWinHash);
-        private void HandleGameLost() => animator.SetTrigger(ShowLoseHash);
-        private void HandleGameRestart() => animator.SetTrigger(ResetHash);
+        private void HandleGameStarted() => Hide(startScreen);
+        private void HandleGameWon() => Show(winScreen);
+        private void HandleGameLost() => Show(loseScreen);
+        private void HandleGameRestart() => ResetScreens();
+
+        private void Show(CanvasGroup screen)
+        {
+            DOTween.Kill(this);
+
+            screen.alpha = 0f;
+            screen.transform.localScale = Vector3.one * showStartScale;
+
+            DOTween.Sequence()
+                .Append(screen.DOFade(1f, showDuration))
+                .Join(screen.transform.DOScale(1f, showDuration).SetEase(Ease.OutBack))
+                .SetTarget(this)
+                .SetLink(gameObject);
+        }
+
+        private void Hide(CanvasGroup screen)
+        {
+            DOTween.Kill(this);
+
+            screen.DOFade(0f, hideDuration)
+                .SetTarget(this)
+                .SetLink(gameObject);
+        }
+
+        private void ResetScreens()
+        {
+            DOTween.Kill(this);
+
+            SetInstant(startScreen, true);
+            SetInstant(winScreen, false);
+            SetInstant(loseScreen, false);
+        }
+
+        private static void SetInstant(CanvasGroup screen, bool visible)
+        {
+            screen.alpha = visible ? 1f : 0f;
+            screen.transform.localScale = Vector3.one;
+        }
     }
 }

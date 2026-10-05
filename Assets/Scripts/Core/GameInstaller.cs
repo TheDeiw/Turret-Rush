@@ -3,6 +3,7 @@ using DG.Tweening;
 using Zenject;
 using Services.Input;
 using UnityEngine;
+using UI;
 
 namespace Core
 {
@@ -12,6 +13,7 @@ namespace Core
         [SerializeField] private GameManager gameManager;
         [SerializeField] private LevelLoader levelLoader;
         [SerializeField] private LevelGenerator levelGenerator;
+        [SerializeField] private Fader fader;
 
         public override void InstallBindings()
         {
@@ -42,6 +44,7 @@ namespace Core
 
         private void BindLevelSystem()
         {
+            Container.Bind<Fader>().FromInstance(fader).AsSingle();
             Container.Bind<LevelGenerator>().FromInstance(levelGenerator).AsSingle();
             Container.Bind<LevelLoader>().FromInstance(levelLoader).AsSingle();
         }

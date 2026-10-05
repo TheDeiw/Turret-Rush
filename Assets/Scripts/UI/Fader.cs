@@ -1,50 +1,40 @@
-using Core;
-using Core.Level;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
-using Zenject;
 
 namespace UI
 {
     public class Fader : MonoBehaviour
     {
-        private static readonly int FadeInHash = Animator.StringToHash("FadeIn");
-        private static readonly int FadeOutHash = Animator.StringToHash("FadeOut");
-
         [Header("References")]
-        [SerializeField] private Animator animator;
+        [SerializeField] private CanvasGroup canvasGroup;
 
-        private LevelLoader _levelLoader;
-
-        [Inject]
-        public void Construct(LevelLoader levelLoader)
-        {
-            _levelLoader = levelLoader;
-        }
+        [Header("Fade Settings")]
+        [SerializeField] private float fadeDuration = 0.5f;
 
         private void Awake()
         {
-            if (!animator)
-            {
-                animator = GetComponent<Animator>();
-            }
-        }
-
-        private void Start()
-        {
-            _levelLoader.OnTransitionStarted += HandleFadeIn;
-            _levelLoader.OnScreenCovered += HandleFadeOut;
+            canvasGroup.alpha = 0f;
         }
 
         private void OnDestroy()
         {
-            if (_levelLoader)
-            {
-                _levelLoader.OnTransitionStarted -= HandleFadeIn;
-                _levelLoader.OnScreenCovered -= HandleFadeOut;
-            }
+            DOTween.Kill(this);
         }
 
-        private void HandleFadeIn() => animator.SetTrigger(FadeInHash);
-        private void HandleFadeOut() => animator.SetTrigger(FadeOutHash);
+        public UniTask FadeInAsync(CancellationToken cancellationToken) => FadeAsync(1f, cancellationToken);
+        public UniTask FadeOutAsync(CancellationToken cancellationToken) => FadeAsync(0f, cancellationToken);
+
+        private UniTask FadeAsync(float alpha, CancellationToken token)
+        {
+            DOTween.Kill(this);
+
+            return canvasGroup.DOFade(alpha, fadeDuration)
+                .SetEase(Ease.InOutSine)
+                .SetTarget(this)
+                .SetLink(gameObject)
+                .ToUniTask(cancellationToken: token);
+        }
     }
 }

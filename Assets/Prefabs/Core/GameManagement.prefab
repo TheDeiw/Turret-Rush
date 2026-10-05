@@ -173,7 +173,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5ff2d8ce16d3534ca9d63c243b2b719, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.LevelLoader
-  fadeDuration: 1
 --- !u!1 &8164757817354438381
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,3 +254,4 @@ MonoBehaviour:
   gameManager: {fileID: 2049469197107241420}
   levelLoader: {fileID: 606720557825548933}
   levelGenerator: {fileID: 7236149398750230419}
+  fader: {fileID: 3879441722129334613, guid: c7055f9b1ea649746b51fa90f4c0e7c9, type: 3}

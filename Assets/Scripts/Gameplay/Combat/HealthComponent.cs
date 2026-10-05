@@ -15,6 +15,8 @@ namespace Gameplay.Combat
         public event Action OnDamaged;
         private int _currentHealth;
         public bool IsAlive => _currentHealth > 0;
+        public int CurrentHealth => _currentHealth;
+        public int MaxHealth => maxHealth;
 
         private void Awake()
         {

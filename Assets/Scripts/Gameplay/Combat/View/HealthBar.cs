@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Gameplay.Combat;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,7 @@ namespace Gameplay.Combat.View
 
         [Header("Bar Settings")]
         [SerializeField] private bool hideOnFullHealth = true;
+        [SerializeField] private float fillDuration = 0.15f;
 
         private Transform _cameraTransform;
 
@@ -40,6 +42,9 @@ namespace Gameplay.Combat.View
             if (healthComponent)
             {
                 healthComponent.OnHealthChanged += UpdateBar;
+
+                // Pooled enemies reset health while inactive, so the bar has to catch up on enable.
+                SetBar(healthComponent.CurrentHealth, healthComponent.MaxHealth, animate: false);
             }
         }
 
@@ -57,9 +62,16 @@ namespace Gameplay.Combat.View
             {
                 healthComponent.OnHealthChanged -= UpdateBar;
             }
+
+            if (fillImage)
+            {
+                fillImage.DOKill();
+            }
         }
 
-        private void UpdateBar(int current, int max)
+        private void UpdateBar(int current, int max) => SetBar(current, max, animate: true);
+
+        private void SetBar(int current, int max, bool animate)
         {
             if (!fillImage)
             {
@@ -67,7 +79,17 @@ namespace Gameplay.Combat.View
             }
 
             var fill = (float) current / max;
-            fillImage.fillAmount = fill;
+            fillImage.DOKill();
+
+            // Only damage is animated; restored health (restart) snaps instantly.
+            if (animate && fill < fillImage.fillAmount)
+            {
+                fillImage.DOFillAmount(fill, fillDuration).SetLink(gameObject);
+            }
+            else
+            {
+                fillImage.fillAmount = fill;
+            }
 
             if (hideOnFullHealth && backgroundImage)
             {

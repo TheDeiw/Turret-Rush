@@ -150,7 +150,6 @@ GameObject:
   - component: {fileID: 7711608468464882600}
   - component: {fileID: 5264169774300312022}
   - component: {fileID: 1755221839876718406}
-  - component: {fileID: 168995553478016787}
   m_Layer: 5
   m_Name: MainCanvas
   m_TagString: Untagged
@@ -238,7 +237,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474250ec70f2d36428c7cbad98d5b669, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIManager
-  animator: {fileID: 168995553478016787}
+  startScreen: {fileID: 6029007727070673568}
+  winScreen: {fileID: 7431051186735074757}
+  loseScreen: {fileID: 1618844113798813801}
+  showDuration: 0.35
+  hideDuration: 0.2
+  showStartScale: 0.8
 --- !u!114 &1755221839876718406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,28 +260,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!95 &168995553478016787
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3585279879779922833}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c65f6013599b03349823d2dc5fa7102a, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3853662151526388668
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,6 +485,7 @@ GameObject:
   - component: {fileID: 2175153676445553551}
   - component: {fileID: 772513565833525463}
   - component: {fileID: 2374690436396353444}
+  - component: {fileID: 6029007727070673568}
   m_Layer: 5
   m_Name: StartPanel
   m_TagString: Untagged
@@ -570,6 +553,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &6029007727070673568
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4275939340490820047}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5220417746910320861
 GameObject:
   m_ObjectHideFlags: 0
@@ -718,6 +713,7 @@ GameObject:
   - component: {fileID: 623139397517687889}
   - component: {fileID: 1739618329387364966}
   - component: {fileID: 8198943226917433392}
+  - component: {fileID: 7431051186735074757}
   m_Layer: 5
   m_Name: WinPanel
   m_TagString: Untagged
@@ -743,7 +739,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 6084.4}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1739618329387364966
@@ -784,6 +780,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &7431051186735074757
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5722571459596944374}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5985520188353087132
 GameObject:
   m_ObjectHideFlags: 0
@@ -795,6 +803,7 @@ GameObject:
   - component: {fileID: 7148629278493659209}
   - component: {fileID: 8241611214285012621}
   - component: {fileID: 1110340559870730599}
+  - component: {fileID: 1618844113798813801}
   m_Layer: 5
   m_Name: LosePanel
   m_TagString: Untagged
@@ -820,7 +829,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 6084.4}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8241611214285012621
@@ -861,6 +870,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &1618844113798813801
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5985520188353087132}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &6055148388462830050
 GameObject:
   m_ObjectHideFlags: 0
