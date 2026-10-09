@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Audio;
 using UnityEngine;
 using UnityEngine.Pool;
 using Zenject;
@@ -23,11 +24,13 @@ namespace Gameplay.Turret
         private IObjectPool<Bullet> _bulletPool;
         private bool _isShooting;
         private GameManager _gameManager;
+        private AudioService _audioService;
 
         [Inject]
-        public void Construct(GameManager gameManager)
+        public void Construct(GameManager gameManager, AudioService audioService)
         {
             _gameManager = gameManager;
+            _audioService = audioService;
         }
 
         private void Awake()
@@ -74,6 +77,7 @@ namespace Gameplay.Turret
             {
                 _fireTimer = 0f;
                 _bulletPool.Get();
+                _audioService.Play(SoundId.Shot);
 
                 if (turretRecoil)
                 {

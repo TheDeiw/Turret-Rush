@@ -1,3 +1,4 @@
+using Audio;
 using Core.Level;
 using DG.Tweening;
 using Zenject;
@@ -14,6 +15,7 @@ namespace Core
         [SerializeField] private LevelLoader levelLoader;
         [SerializeField] private LevelGenerator levelGenerator;
         [SerializeField] private Fader fader;
+        [SerializeField] private AudioService audioService;
 
         public override void InstallBindings()
         {
@@ -21,6 +23,7 @@ namespace Core
             BindInputService();
             BindGameManager();
             BindLevelSystem();
+            BindAudio();
         }
 
         private void InitTweens()
@@ -47,6 +50,11 @@ namespace Core
             Container.Bind<Fader>().FromInstance(fader).AsSingle();
             Container.Bind<LevelGenerator>().FromInstance(levelGenerator).AsSingle();
             Container.Bind<LevelLoader>().FromInstance(levelLoader).AsSingle();
+        }
+
+        private void BindAudio()
+        {
+            Container.Bind<AudioService>().FromInstance(audioService).AsSingle();
         }
     }
 }

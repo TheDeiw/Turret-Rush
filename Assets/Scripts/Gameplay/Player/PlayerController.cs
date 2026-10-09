@@ -1,3 +1,4 @@
+using Audio;
 using Core;
 using Gameplay.CameraActions;
 using Gameplay.Combat;
@@ -18,13 +19,17 @@ namespace Gameplay.Player
         [SerializeField] private float speedChangeRate = 5f;
 
         private GameManager _gameManager;
+        private AudioService _audioService;
         private bool _isMoving;
         private float _currentSpeed;
 
+        public float SpeedNormalized => speed > 0f ? _currentSpeed / speed : 0f;
+
         [Inject]
-        public void Construct(GameManager gameManager)
+        public void Construct(GameManager gameManager, AudioService audioService)
         {
             _gameManager = gameManager;
+            _audioService = audioService;
         }
 
         private void Start()
@@ -86,6 +91,7 @@ namespace Gameplay.Player
         private void HandleHit()
         {
             cameraShake.Shake();
+            _audioService.Play(SoundId.CarHit);
         }
 
         private void HandleDeath()

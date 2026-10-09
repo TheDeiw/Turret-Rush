@@ -22,11 +22,13 @@ https://drive.google.com/file/d/1Tp8SkfU6UbWGf3M10KyuIoFDs1rd75af/view?usp=drive
 - **UniTask** for async/await level loading instead of coroutines.
 - **New Input System**, touch-based (tap to start/restart, screen-position drag to aim the turret).
 - **Unity's built-in `ObjectPool<T>`** for bullets.
+- **DOTween** for UI, hit and music-volume tweens.
 
 ## Project structure
 
 ```
 Assets/Scripts/
+├── Audio/         Audio service (music + pooled SFX voices), game-event → sound bridge
 ├── Core/          Game state, level generation/loading, DI installer
 ├── Gameplay/
 │   ├── Combat/    Health, damage interface, health bar UI
@@ -37,7 +39,7 @@ Assets/Scripts/
 └── UI/            Fader (scene transitions), overlay UI (win/lose/start)
 ```
 
-Namespaces mirror the folder layout (`Core`, `Gameplay.Combat`, `Gameplay.Enemy`, `Gameplay.Player`, `Gameplay.Turret`, `Services.Input`, `UI`), which keeps responsibilities easy to locate and keeps assembly boundaries clean if the project grows.
+Namespaces mirror the folder layout (`Audio`, `Core`, `Gameplay.Combat`, `Gameplay.Enemy`, `Gameplay.Player`, `Gameplay.Turret`, `Services.Input`, `UI`), which keeps responsibilities easy to locate and keeps assembly boundaries clean if the project grows.
 
 ## What's worth highlighting
 
@@ -46,7 +48,8 @@ Namespaces mirror the folder layout (`Core`, `Gameplay.Combat`, `Gameplay.Enemy`
 - **Event-driven game state.** `GameManager` exposes a `GameState` enum and `Action` events; every other system reacts to them instead of polling or referencing each other directly.
 - **UniTask instead of coroutines**, used throughout (level transitions, camera shake, hit reactions) for cancellable, linear async flow.
 - **Object pooling for bullets** via Unity's `ObjectPool<Bullet>`, since the turret fires continuously.
-- **Zenject DI** for cross-cutting services (`GameManager`, `MainInputSystem`, `LevelLoader`, `LevelGenerator`) instead of singletons/`Find`.
+- **Audio split into "how" and "when".** `AudioService` only knows how to play: a looping music source plus a small round-robin pool of SFX voices (so every shot gets its own random pitch), per-sound volume/pitch variance/min-interval throttling, and music/SFX toggles saved in `PlayerPrefs`. `GameAudio` is a thin bridge from `GameManager`/`LevelLoader` events to music levels and jingles; local sounds (shot, enemy hit/kill, car hit) are called directly by the gameplay classes. Enemy sounds are played centrally because a dead enemy is deactivated immediately.
+- **Zenject DI** for cross-cutting services (`GameManager`, `MainInputSystem`, `LevelLoader`, `LevelGenerator`, `AudioService`) instead of singletons/`Find`.
 - **A dedicated mobile quality tier** in `QualitySettings`, matching the touch-first input scheme.
 
 ## Running the project
@@ -55,3 +58,11 @@ Namespaces mirror the folder layout (`Core`, `Gameplay.Combat`, `Gameplay.Enemy`
 2. Open `Assets/Scenes/Game.unity`.
 3. Press Play. In the Editor, enable touch simulation from mouse (Window → Analysis → Input Debugger → Options → Simulate Touch Input From Mouse) since the input scheme is touch-only.
 4. Tap/click to start the run, drag across the screen to aim the turret.
+
+## Credits
+
+All third-party audio is CC0 (public domain); credit is given anyway.
+
+- Sound effects (impacts, engine loop, win/lose jingles) — [Kenney](https://kenney.nl): *Impact Sounds*, *Sci-Fi Sounds*, *Music Jingles*.
+- Music — Juhani Junkala, *5 Chiptunes (Action)* — [OpenGameArt](https://opengameart.org/content/5-chiptunes-action).
+- Gunshot and transition whoosh — generated procedurally for this project.

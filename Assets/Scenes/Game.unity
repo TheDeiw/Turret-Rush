@@ -581,6 +581,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5177101009215761477, guid: 1afcbca598cda344f9f4a45e27f27a72, type: 3}
+      propertyPath: musicClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4aca6dafb4bf4b84d923bc74456d3d9e, type: 3}
+    - target: {fileID: 5177101009215761477, guid: 1afcbca598cda344f9f4a45e27f27a72, type: 3}
+      propertyPath: musicVolume
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 8164757817354438381, guid: 1afcbca598cda344f9f4a45e27f27a72, type: 3}
       propertyPath: m_Name
       value: GameManagement
@@ -806,6 +814,10 @@ PrefabInstance:
     - target: {fileID: 3585279879779922833, guid: f87246f055474e24aa0728771154e25c, type: 3}
       propertyPath: m_Name
       value: MainCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 3585279879779922833, guid: f87246f055474e24aa0728771154e25c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

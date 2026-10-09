@@ -44,6 +44,127 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 709c14285db44d4e9a13909afb379d04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.GameManager
+--- !u!1 &4718656714288685463
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6637728911651232335}
+  - component: {fileID: 5177101009215761477}
+  - component: {fileID: 1129118534256705867}
+  m_Layer: 0
+  m_Name: Audio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6637728911651232335
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4718656714288685463}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1276257272016945659}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5177101009215761477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4718656714288685463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59c646204517ad44d905f5189500dde3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Audio.AudioService
+  musicClip: {fileID: 8300000, guid: dd357bf17629e8a408139af20c34c07f, type: 3}
+  musicVolume: 0.5
+  sounds:
+  - id: 0
+    clips:
+    - {fileID: 8300000, guid: 94ea0a038dc48194f9ba11d4c6a6a8a8, type: 3}
+    - {fileID: 8300000, guid: 8ca687890ce2abc4d884d851d7b9df8c, type: 3}
+    - {fileID: 8300000, guid: 473289ef46f92204e80deb871fcdc9cc, type: 3}
+    volume: 0.35
+    pitchVariance: 0.08
+    minInterval: 0
+  - id: 1
+    clips:
+    - {fileID: 8300000, guid: 57ae54c26800fe54e85493ceb50c4b99, type: 3}
+    - {fileID: 8300000, guid: deb0fa4b304b53f4299c7b73dc99a1ff, type: 3}
+    - {fileID: 8300000, guid: f392aa2537da4824dadefbc051b9b125, type: 3}
+    - {fileID: 8300000, guid: d9a0a855951f48c48aa3106645c9bb7c, type: 3}
+    - {fileID: 8300000, guid: 9bb605661b44e624aa7818231fcf9f22, type: 3}
+    volume: 0.6
+    pitchVariance: 0.1
+    minInterval: 0.05
+  - id: 2
+    clips:
+    - {fileID: 8300000, guid: 68bcaffe75bbec04e92ced98bb5ed6d8, type: 3}
+    - {fileID: 8300000, guid: d7ee7bdd432e92245833230a75829085, type: 3}
+    - {fileID: 8300000, guid: bddaaa069a2e927438f27c3de8d7aa97, type: 3}
+    - {fileID: 8300000, guid: 6f9aa5152af5cb0488166594b30a23a5, type: 3}
+    - {fileID: 8300000, guid: e4c77570762cec44c95586510d40fa3c, type: 3}
+    volume: 0.8
+    pitchVariance: 0.1
+    minInterval: 0.05
+  - id: 3
+    clips:
+    - {fileID: 8300000, guid: e3f62bdc20144824cb436fffea2b6160, type: 3}
+    - {fileID: 8300000, guid: 54dbe51073ef75444babe2ff14e907ac, type: 3}
+    - {fileID: 8300000, guid: 81dd4daf55129b04b99e47346be33175, type: 3}
+    - {fileID: 8300000, guid: 6fd91bec9a6485141adc558bfe3a3feb, type: 3}
+    - {fileID: 8300000, guid: 7a6cf3b91eba9164491c6dfeea1e95fb, type: 3}
+    volume: 1
+    pitchVariance: 0.05
+    minInterval: 0.1
+  - id: 4
+    clips:
+    - {fileID: 8300000, guid: 85ebdac087f680f4ca16cd2750b36c4f, type: 3}
+    volume: 0.8
+    pitchVariance: 0
+    minInterval: 0
+  - id: 5
+    clips:
+    - {fileID: 8300000, guid: a8acb2f1e2d2f9046a4c61cc106025f7, type: 3}
+    volume: 0.8
+    pitchVariance: 0
+    minInterval: 0
+  - id: 6
+    clips:
+    - {fileID: 8300000, guid: cc433e60851c08a4a9338fcb99901bd9, type: 3}
+    volume: 0.5
+    pitchVariance: 0.05
+    minInterval: 0
+  sfxVoices: 8
+--- !u!114 &1129118534256705867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4718656714288685463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b8477190673d4408b98f81ddb0160c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Audio.GameAudio
+  menuMusicLevel: 0.5
+  playingMusicLevel: 1
+  resultMusicLevel: 0.2
+  musicFadeDuration: 0.5
 --- !u!1 &4968047957354934057
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,6 +326,7 @@ Transform:
   - {fileID: 6569123051811581851}
   - {fileID: 5501798815486720089}
   - {fileID: 5298510414744542936}
+  - {fileID: 6637728911651232335}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8239160409321932977
@@ -255,3 +377,4 @@ MonoBehaviour:
   levelLoader: {fileID: 606720557825548933}
   levelGenerator: {fileID: 7236149398750230419}
   fader: {fileID: 3879441722129334613, guid: c7055f9b1ea649746b51fa90f4c0e7c9, type: 3}
+  audioService: {fileID: 5177101009215761477}

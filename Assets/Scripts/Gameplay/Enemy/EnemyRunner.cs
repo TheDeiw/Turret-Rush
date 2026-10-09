@@ -1,6 +1,8 @@
+using Audio;
 using DG.Tweening;
 using Gameplay.Combat;
 using UnityEngine;
+using Zenject;
 
 namespace Gameplay.Enemy
 {
@@ -26,6 +28,13 @@ namespace Gameplay.Enemy
         private Transform _target;
         private bool _isActive;
         private Vector3 _baseScale;
+        private AudioService _audioService;
+
+        [Inject]
+        public void Construct(AudioService audioService)
+        {
+            _audioService = audioService;
+        }
 
         private void Awake()
         {
@@ -34,7 +43,7 @@ namespace Gameplay.Enemy
                 animator = GetComponentInChildren<Animator>();
             }
 
-            healthComponent.OnDied += HandleDeath;
+            healthComponent.OnDied += HandleKilled;
             healthComponent.OnDamaged += HandleHit;
 
             _baseScale = transform.localScale;
@@ -56,7 +65,7 @@ namespace Gameplay.Enemy
 
         private void OnDestroy()
         {
-            healthComponent.OnDied -= HandleDeath;
+            healthComponent.OnDied -= HandleKilled;
             healthComponent.OnDamaged -= HandleHit;
 
             transform.DOKill();
@@ -71,7 +80,8 @@ namespace Gameplay.Enemy
                     carHealth.TakeDamage(damage);
                 }
 
-                HandleDeath();
+                // The car plays its own hit sound, so the enemy just disappears.
+                Die();
             }
         }
 
@@ -110,6 +120,12 @@ namespace Gameplay.Enemy
 
         private void HandleHit()
         {
+            // A lethal hit plays the kill sound instead.
+            if (healthComponent.IsAlive)
+            {
+                _audioService.Play(SoundId.EnemyHit);
+            }
+
             if (hitParticle)
             {
                 hitParticle.Play();
@@ -130,7 +146,13 @@ namespace Gameplay.Enemy
             transform.localScale = _baseScale;
         }
 
-        private void HandleDeath()
+        private void HandleKilled()
+        {
+            _audioService.Play(SoundId.EnemyKilled);
+            Die();
+        }
+
+        private void Die()
         {
             // Pooled enemies are only deactivated, so the tween has to be killed manually.
             StopHitPunch();

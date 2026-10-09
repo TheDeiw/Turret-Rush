@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Gameplay.Enemy;
 using UnityEngine;
+using Zenject;
 
 namespace Core.Level
 {
@@ -34,6 +35,14 @@ namespace Core.Level
 
         private readonly List<GameObject> _spawnedSegments = new();
         private readonly List<EnemySpawnData> _spawnedEnemies = new();
+
+        private DiContainer _container;
+
+        [Inject]
+        public void Construct(DiContainer container)
+        {
+            _container = container;
+        }
 
         public void GenerateLevel()
         {
@@ -75,7 +84,8 @@ namespace Core.Level
                 var spawnRot = Quaternion.Euler(0, Random.Range(0, 360), 0);
 
                 var prefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
-                var enemy = Instantiate(prefab, spawnPos, spawnRot);
+                // Through the container, so enemies get their [Inject] dependencies.
+                var enemy = _container.InstantiatePrefabForComponent<EnemyBase>(prefab, spawnPos, spawnRot, null);
                 _spawnedEnemies.Add(new EnemySpawnData(enemy, spawnPos, spawnRot));
             }
         }
